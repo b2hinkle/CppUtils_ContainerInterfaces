@@ -98,7 +98,7 @@ block(SCOPE_FOR VARIABLES)
   # List of all source files (relative to our "Source" directory).
   set(MyTargetSources
     "${MY_BASE_PROJECT_NAME_FULL}_Export.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/ArrayInterface.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/StaticArrayInterface.cpp"
     )
 
   # Add source file paths for `BUILD_LOCAL_INTERFACE` users.
