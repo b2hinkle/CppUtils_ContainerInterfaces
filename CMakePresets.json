@@ -1,0 +1,74 @@
+{
+    "version": 10,
+    "cmakeMinimumRequired": {
+        "major": 4,
+        "minor": 0,
+        "patch": 0
+    },
+    "$comment": [
+        "Copyright (c) 2023-2025 Christian Hinkle, Brian Hinkle.",
+        "Includes: We have includes of utility files search from the `${sourceDir}` (which is the top-level project's directory), so that it's the responsibility of the top-level project to provide these files. We do this to avoid multiple includes to duplicate files. CMake throws an error if a preset is defined twice with the same name, but it does allow duplicate includes to the same file."
+    ],
+    "include": [
+        "${sourceDir}/GeneralCMakePresets/GeneralPresets.json"
+    ],
+    "testPresets": [
+        {
+            "name": "CppUtils-ContainerInterfaces-base",
+            "hidden": true,
+            "filter": {
+                "include": {
+                    "name": "CppUtils.ContainerInterfaces."
+                }
+            }
+        },
+        {
+            "name": "CppUtils-ContainerInterfaces-win-debug",
+            "displayName": "CppUtils.ContainerInterfaces - Windows Debug",
+            "inherits": [
+                "CppUtils-ContainerInterfaces-base",
+                "win-debug"
+            ]
+        },
+        {
+            "name": "CppUtils-ContainerInterfaces-win-release",
+            "displayName": "CppUtils.ContainerInterfaces - Windows Release",
+            "inherits": [
+                "CppUtils-ContainerInterfaces-base",
+                "win-release"
+            ]
+        },
+        {
+            "name": "CppUtils-ContainerInterfaces-linux-debug",
+            "displayName": "CppUtils.ContainerInterfaces - Linux Debug",
+            "inherits": [
+                "CppUtils-ContainerInterfaces-base",
+                "linux-debug"
+            ]
+        },
+        {
+            "name": "CppUtils-ContainerInterfaces-linux-release",
+            "displayName": "CppUtils.ContainerInterfaces - Linux Release",
+            "inherits": [
+                "CppUtils-ContainerInterfaces-base",
+                "linux-release"
+            ]
+        },
+        {
+            "name": "CppUtils-ContainerInterfaces-macos-debug",
+            "displayName": "CppUtils.ContainerInterfaces - macOS Debug",
+            "inherits": [
+                "CppUtils-ContainerInterfaces-base",
+                "macos-debug"
+            ]
+        },
+        {
+            "name": "CppUtils-ContainerInterfaces-macos-release",
+            "displayName": "CppUtils.ContainerInterfaces - macOS Release",
+            "inherits": [
+                "CppUtils-ContainerInterfaces-base",
+                "macos-release"
+            ]
+        }
+    ]
+}
