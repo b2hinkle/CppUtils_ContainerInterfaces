@@ -7,32 +7,32 @@ int main(int argc, char** argv)
     {
         bool isSuccess = true;
         
-        int rawArr[] = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::ArrayGetCapacity(rawArr);
-        constexpr int size = CppUtils::ArrayGetSize(rawArr);
+        const int rawArr[] = { 0, 1, 2 };
+        constexpr int capacity = CppUtils::ArrayGetCapacityPolicy<decltype(rawArr)>::Do(rawArr);
+        constexpr int size = CppUtils::ArrayGetSizePolicy<decltype(rawArr)>::Do(rawArr);
         if (size != capacity) // Constant size arrays have same size and capacity.
         {
             isSuccess = false;
         }
 
-        if (CppUtils::ArrayIsEmpty(rawArr))
+        if (CppUtils::ArrayIsEmptyPolicy<decltype(rawArr)>::Do(rawArr))
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement1 = CppUtils::ArrayGetElement(rawArr, 0);
+        const int& gottenRawArrElement1 = CppUtils::ArrayGetElementPolicy<decltype(rawArr)>::Do(rawArr, 0);
         if (gottenRawArrElement1 != 0)
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement2 = CppUtils::ArrayGetElement(rawArr, 1);
+        const int& gottenRawArrElement2 = CppUtils::ArrayGetElementPolicy<decltype(rawArr)>::Do(rawArr, 1);
         if (gottenRawArrElement2 != 1)
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement3 = CppUtils::ArrayGetElement(rawArr, 2);
+        const int& gottenRawArrElement3 = CppUtils::ArrayGetElementPolicy<decltype(rawArr)>::Do(rawArr, 2);
         if (gottenRawArrElement3 != 2)
         {
             isSuccess = false;
@@ -43,16 +43,18 @@ int main(int argc, char** argv)
         bool isSuccess = true;
 
         constexpr std::array<int, 3> stdArr = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::ArrayGetCapacity(stdArr);
-        constexpr int gottenStdArrElement = CppUtils::ArrayGetElement(stdArr, 1);
+        constexpr int capacity = CppUtils::ArrayGetCapacityPolicy<decltype(stdArr)>::Do(stdArr);
+        constexpr int front = CppUtils::ArrayGetFrontPolicy<decltype(stdArr)>::Do(stdArr);
+        constexpr int back = CppUtils::ArrayGetBackPolicy<decltype(stdArr)>::Do(stdArr);
+        const int& gottenStdArrElement = CppUtils::ArrayGetElementPolicy<decltype(stdArr)>::Do(stdArr, 1);
 
-        if (CppUtils::ArrayIsEmpty(stdArr))
+        if (CppUtils::ArrayIsEmptyPolicy<decltype(stdArr)>::Do(stdArr))
         {
             isSuccess = false;
         }
 
         constexpr std::array<int, 0> stdArrZeroSize;
-        if (!CppUtils::ArrayIsEmpty(stdArrZeroSize))
+        if (!CppUtils::ArrayIsEmptyPolicy<decltype(stdArrZeroSize)>::Do(stdArrZeroSize))
         {
             isSuccess = false;
         }
@@ -60,9 +62,9 @@ int main(int argc, char** argv)
 
     {
         static const std::array<int, 3> stdArr = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::ArrayGetCapacity(stdArr);
+        constexpr int capacity = CppUtils::ArrayGetCapacityPolicy<decltype(stdArr)>::Do(stdArr);
         constexpr int rawArr[] = { 0, 1, 2 };
-        constexpr int gottenStdArrElement = CppUtils::ArrayGetElement(rawArr, 1);
+        constexpr int gottenStdArrElement = CppUtils::ArrayGetElementPolicy<decltype(rawArr)>::Do(rawArr, 1);
 
     }
 }
