@@ -64,6 +64,23 @@ namespace CppUtils
 
     template <class T>
     using ArrayGetCapacityPolicy = ArrayGetCapacityPolicy_Impl<std::remove_cvref_t<T>>;
+
+    /*
+    * Gets the capacity.
+    * TODO: Make a non-consteval version to account for dynamically sized arrays.
+    * TODO: Potentally also make a pass by value overload, especially helpful for static arrays.
+    */
+    template <class T>
+    consteval decltype(auto) GetCapacity(T&& container)
+    {
+        return ArrayGetCapacityPolicy<T>::Do(std::forward<T>(container));
+    }
+
+
+
+
+
+    
     
     
     
@@ -93,7 +110,11 @@ namespace CppUtils
     template <class T>
     using ArrayGetSizePolicy = ArrayGetSizePolicy_Impl<std::remove_cvref_t<T>>;
     
-    
+    template <class T>
+    consteval decltype(auto) GetSize(T&& container)
+    {
+        return ArrayGetSizePolicy<T>::Do(std::forward<T>(container));
+    }
     
 
     
