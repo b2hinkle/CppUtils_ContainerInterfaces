@@ -31,7 +31,7 @@ namespace CppUtils
     * Gets the capacity.
     */
     template <class T>
-    consteval decltype(auto) GetCapacity(T&& container)
+    consteval decltype(auto) GetContainerCapacity(T&& container)
     {
         return ContainerPolicyInterface_GetCapacity<T>::Doer::Do(std::forward<T>(container));
     }
@@ -57,7 +57,7 @@ namespace CppUtils
     };
     
     template <class T>
-    consteval decltype(auto) GetSize(T&& container)
+    consteval decltype(auto) GetContainerSize(T&& container)
     {
         return ContainerPolicyInterface_GetSize<T>::Doer::Do(std::forward<T>(container));
     }
@@ -85,7 +85,7 @@ namespace CppUtils
     
     // TODO: GENERIC TYPE FOR INDEX!
     template <class T>
-    consteval decltype(auto) IsValidIndex(T&& container, int index)
+    consteval decltype(auto) IsValidIndexForContainer(T&& container, int index)
     {
         return ContainerPolicyInterface_IsValidIndex<T>::Doer::Do(std::forward<T>(container), index);
     }
@@ -115,7 +115,7 @@ namespace CppUtils
     };
     
     template <class T>
-    consteval decltype(auto) ArrayIsEmpty(T&& container)
+    consteval decltype(auto) IsContainerEmpty(T&& container)
     {
         return ContainerPolicyInterface_IsEmpty<T>::Doer::Do(std::forward<T>(container));
     }
@@ -141,7 +141,7 @@ namespace CppUtils
     };
     
     template <class T>
-    consteval decltype(auto) ArrayGetFront(T&& container)
+    consteval decltype(auto) GetContainerFront(T&& container)
     {
         return ContainerPolicyInterface_GetFront<T>::Doer::Do(std::forward<T>(container));
     }
@@ -167,7 +167,7 @@ namespace CppUtils
     };
     
     template <class T>
-    consteval decltype(auto) ArrayGetBack(T&& container)
+    consteval decltype(auto) GetContainerBack(T&& container)
     {
         return ContainerPolicyInterface_GetBack<T>::Doer::Do(std::forward<T>(container));
     }
@@ -195,7 +195,7 @@ namespace CppUtils
     
     // TODO: GENERIC TYPE FOR INDEX!
     template <class T>
-    constexpr decltype(auto) ArrayGetElement(T&& container, int index)
+    constexpr decltype(auto) GetContainerElement(T&& container, int index)
     {
         return ContainerPolicyInterface_GetElement<T>::Doer::Do(std::forward<T>(container), index);
     }
