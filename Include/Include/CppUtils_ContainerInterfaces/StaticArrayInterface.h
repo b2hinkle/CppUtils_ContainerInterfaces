@@ -32,6 +32,20 @@ namespace CppUtils
     template <class T>
     struct ArrayGetCapacityPolicy_Impl;
 
+    /*
+    *
+    */
+    template <class T>
+    struct ArrayGetCapacityPolicy_Interface
+    {
+        //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
+
+        using NeuteredT = std::remove_cvref_t<T>; // TODO: Possibly use mixin approach for inheriting this using to avoid dup code.
+
+        // Our implementer which conforms to our enforcements.
+        using Doer = ArrayGetCapacityPolicy_Impl<NeuteredT>;
+    };
+
     // Raw array.
     template <class T, std::size_t Capacity>
     struct ArrayGetCapacityPolicy_Impl<T[Capacity]>
@@ -62,9 +76,6 @@ namespace CppUtils
         }
     };
 
-    template <class T>
-    using ArrayGetCapacityPolicy = ArrayGetCapacityPolicy_Impl<std::remove_cvref_t<T>>;
-
     /*
     * Gets the capacity.
     * TODO: Make a non-consteval version to account for dynamically sized arrays.
@@ -73,7 +84,7 @@ namespace CppUtils
     template <class T>
     consteval decltype(auto) GetCapacity(T&& container)
     {
-        return ArrayGetCapacityPolicy<T>::Do(std::forward<T>(container));
+        return ArrayGetCapacityPolicy_Interface<T>::Doer::Do(std::forward<T>(container));
     }
 
 
