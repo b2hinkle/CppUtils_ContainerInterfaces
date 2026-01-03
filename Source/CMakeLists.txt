@@ -98,7 +98,10 @@ block(SCOPE_FOR VARIABLES)
   # List of all source files (relative to our "Source" directory).
   set(MyTargetSources
     "${MY_BASE_PROJECT_NAME_FULL}_Export.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/StaticArrayInterface.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerInterfaces.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/PolicyPrimaryTemplates.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerImplementations/RawArrayImplementation.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerImplementations/StdArrayImplementation.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/Interface.cpp"
     )
 

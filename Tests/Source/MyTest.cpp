@@ -1,6 +1,10 @@
 // Copyright (c) 2023-2025 Christian Hinkle, Brian Hinkle.
 
-#include <CppUtils_ContainerInterfaces/StaticArrayInterface.h>
+#include <CppUtils_ContainerInterfaces/ContainerInterfaces.h>
+
+// TODO: Will remove both once we've finished policy calls through interface.
+#include <CppUtils_ContainerInterfaces/ContainerImplementations/RawArrayImplementation.h>
+#include <CppUtils_ContainerInterfaces/ContainerImplementations/StdArrayImplementation.h>
 
 int main(int argc, char** argv)
 {

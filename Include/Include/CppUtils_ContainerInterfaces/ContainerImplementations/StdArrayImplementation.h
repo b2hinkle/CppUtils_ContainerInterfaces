@@ -1,0 +1,142 @@
+// Copyright (c) 2023-2025 Christian Hinkle, Brian Hinkle.
+
+#pragma once
+
+#include <array>
+#include <type_traits>
+#include <CppUtils_ContainerInterfaces/PolicyPrimaryTemplates.h>
+
+namespace CppUtils
+{    
+    template <class T, std::size_t Capacity>
+    struct ArrayGetCapacityPolicy_Impl<std::array<T, Capacity>>
+    {
+        static consteval std::size_t Do(const std::array<T, Capacity>&)
+        {
+            return Capacity;
+        }
+        
+        static consteval std::size_t Do(std::array<T, Capacity>&)
+        {
+            return Capacity;
+        }
+    };
+
+
+
+
+
+
+    template <class T, std::size_t Capacity>
+    struct ArrayGetSizePolicy_Impl<std::array<T, Capacity>>
+    {
+        static consteval std::size_t Do(const std::array<T, Capacity>&)
+        {
+            return Capacity;
+        }
+    };
+    
+
+    
+    
+    
+    
+    
+    
+    template <class T, std::size_t Capacity>
+    struct ArrayIsValidIndexPolicy_Impl<std::array<T, Capacity>>
+    {
+        static consteval bool Do(const std::array<T, Capacity>&, const std::size_t index)
+        {
+            return index >= 0
+                && index < Capacity;
+        }
+    };
+    
+    
+    
+
+    
+    
+    
+    
+    
+
+    template <class T, std::size_t Capacity>
+    struct ArrayIsEmptyPolicy_Impl<std::array<T, Capacity>>
+    {
+        static consteval bool Do(const std::array<T, Capacity>&)
+        {
+            return Capacity == 0;
+        }
+    };
+    
+    
+    
+
+    
+
+
+    
+
+    template <class T, std::size_t Capacity>
+    struct ArrayGetFrontPolicy_Impl<std::array<T, Capacity>>
+    {
+        static constexpr const T& Do(const std::array<T, Capacity>& arr)
+        {
+            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            return arr.front();
+        }
+        
+        static constexpr T& Do(std::array<T, Capacity>& arr)
+        {
+            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            return arr.front();
+        }
+    };
+    
+    
+    
+
+    
+    
+    
+    
+    
+    template <class T, std::size_t Capacity>
+    struct ArrayGetBackPolicy_Impl<std::array<T, Capacity>>
+    {
+        static constexpr const T& Do(const std::array<T, Capacity>& arr)
+        {
+            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            return arr.back();
+        }
+        
+        static constexpr T& Do(std::array<T, Capacity>& arr)
+        {
+            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            return arr.back();
+        }
+    };
+    
+    
+    
+
+    
+    
+    
+    
+    template <class T, std::size_t Capacity>
+    struct ArrayGetElementPolicy_Impl<std::array<T, Capacity>>
+    {
+        static constexpr const T& Do(const std::array<T, Capacity>& arr, const std::size_t index)
+        {
+            return arr[index];
+        }
+
+        static constexpr T& Do(std::array<T, Capacity>& arr, const std::size_t index)
+        {
+            return arr[index];
+        }
+    };    
+}
