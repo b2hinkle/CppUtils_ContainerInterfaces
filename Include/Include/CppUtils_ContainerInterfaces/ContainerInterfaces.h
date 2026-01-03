@@ -24,7 +24,7 @@ namespace CppUtils
         using NeuteredT = std::remove_cvref_t<T>; // TODO: Use mixin approach for inheriting this using to avoid dup code.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ContainerPolicyInterface_GetCapacity<NeuteredT>;
+        using Doer = ContainerPolicy_GetCapacity<NeuteredT>;
     };
 
     /*
@@ -53,7 +53,7 @@ namespace CppUtils
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ContainerPolicyInterface_GetSize<NeuteredT>;
+        using Doer = ContainerPolicy_GetSize<NeuteredT>;
     };
     
     template <class T>
@@ -80,7 +80,7 @@ namespace CppUtils
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ContainerPolicyInterface_IsValidIndex<NeuteredT>;
+        using Doer = ContainerPolicy_IsValidIndex<NeuteredT>;
     };
     
     // TODO: GENERIC TYPE FOR INDEX!
@@ -111,7 +111,7 @@ namespace CppUtils
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ContainerPolicyInterface_IsEmpty<NeuteredT>;
+        using Doer = ContainerPolicy_IsEmpty<NeuteredT>;
     };
     
     template <class T>
@@ -137,7 +137,7 @@ namespace CppUtils
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ContainerPolicyInterface_GetFront<NeuteredT>;
+        using Doer = ContainerPolicy_GetFront<NeuteredT>;
     };
     
     template <class T>
@@ -163,7 +163,7 @@ namespace CppUtils
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ContainerPolicyInterface_GetBack<NeuteredT>;
+        using Doer = ContainerPolicy_GetBack<NeuteredT>;
     };
     
     template <class T>
@@ -190,7 +190,7 @@ namespace CppUtils
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ContainerPolicyInterface_GetElement<NeuteredT>;
+        using Doer = ContainerPolicy_GetElement<NeuteredT>;
     };
     
     // TODO: GENERIC TYPE FOR INDEX!

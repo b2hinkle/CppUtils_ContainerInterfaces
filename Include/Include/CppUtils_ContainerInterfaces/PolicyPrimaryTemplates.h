@@ -9,24 +9,24 @@ namespace CppUtils
 {
 
     template <class T>
-    struct ContainerPolicyInterface_GetCapacity;
+    struct ContainerPolicy_GetCapacity;
     
     template <class T>
-    struct ContainerPolicyInterface_GetSize;
+    struct ContainerPolicy_GetSize;
     
     template <class T>
-    struct ContainerPolicyInterface_IsValidIndex;
+    struct ContainerPolicy_IsValidIndex;
     
     template <class T>
-    struct ContainerPolicyInterface_IsEmpty;
+    struct ContainerPolicy_IsEmpty;
     
     template <class T>
-    struct ContainerPolicyInterface_GetFront;
+    struct ContainerPolicy_GetFront;
     
     template <class T>
-    struct ContainerPolicyInterface_GetBack;
+    struct ContainerPolicy_GetBack;
     
     template <class T>
-    struct ContainerPolicyInterface_GetElement;
+    struct ContainerPolicy_GetElement;
 
 }
