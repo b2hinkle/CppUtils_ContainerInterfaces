@@ -9,7 +9,7 @@
 namespace CppUtils
 {
     template <class T, std::size_t Capacity>
-    struct ArrayGetCapacityPolicy_Impl<T[Capacity]>
+    struct ContainerPolicyInterface_GetCapacity<T[Capacity]>
     {
         static consteval std::size_t Do(const T (&)[Capacity])
         {
@@ -31,7 +31,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayGetSizePolicy_Impl<T[Capacity]>
+    struct ContainerPolicyInterface_GetSize<T[Capacity]>
     {
         static consteval std::size_t Do(const T (&)[Capacity])
         {
@@ -45,7 +45,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayIsValidIndexPolicy_Impl<T[Capacity]>
+    struct ContainerPolicyInterface_IsValidIndex<T[Capacity]>
     {
         static consteval bool Do(const T (&)[Capacity], const std::size_t index)
         {
@@ -63,7 +63,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayIsEmptyPolicy_Impl<T[Capacity]>
+    struct ContainerPolicyInterface_IsEmpty<T[Capacity]>
     {
         static consteval bool Do(const T (&)[Capacity])
         {
@@ -80,7 +80,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayGetFrontPolicy_Impl<T[Capacity]>
+    struct ContainerPolicyInterface_GetFront<T[Capacity]>
     {
         static constexpr const T& Do(const T (&arr)[Capacity])
         {
@@ -103,7 +103,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayGetBackPolicy_Impl<T[Capacity]>
+    struct ContainerPolicyInterface_GetBack<T[Capacity]>
     {
         static constexpr const T& Do(const T (&arr)[Capacity])
         {
@@ -126,7 +126,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayGetElementPolicy_Impl<T[Capacity]>
+    struct ContainerPolicyInterface_GetElement<T[Capacity]>
     {
         static constexpr const T& Do(const T (&arr)[Capacity], const std::size_t index)
         {

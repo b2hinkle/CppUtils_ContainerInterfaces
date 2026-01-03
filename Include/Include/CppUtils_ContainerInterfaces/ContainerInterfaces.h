@@ -17,14 +17,14 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ArrayGetCapacityPolicy_Interface
+    struct ContainerPolicyInterface_GetCapacity
     {
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         using NeuteredT = std::remove_cvref_t<T>; // TODO: Use mixin approach for inheriting this using to avoid dup code.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ArrayGetCapacityPolicy_Impl<NeuteredT>;
+        using Doer = ContainerPolicyInterface_GetCapacity<NeuteredT>;
     };
 
     /*
@@ -33,7 +33,7 @@ namespace CppUtils
     template <class T>
     consteval decltype(auto) GetCapacity(T&& container)
     {
-        return ArrayGetCapacityPolicy_Interface<T>::Doer::Do(std::forward<T>(container));
+        return ContainerPolicyInterface_GetCapacity<T>::Doer::Do(std::forward<T>(container));
     }
 
 
@@ -46,20 +46,20 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ArrayGetSizePolicy_Interface
+    struct ContainerPolicyInterface_GetSize
     {
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ArrayGetSizePolicy_Impl<NeuteredT>;
+        using Doer = ContainerPolicyInterface_GetSize<NeuteredT>;
     };
     
     template <class T>
     consteval decltype(auto) GetSize(T&& container)
     {
-        return ArrayGetSizePolicy_Interface<T>::Doer::Do(std::forward<T>(container));
+        return ContainerPolicyInterface_GetSize<T>::Doer::Do(std::forward<T>(container));
     }
 
 
@@ -73,21 +73,21 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ArrayIsValidIndexPolicy_Interface
+    struct ContainerPolicyInterface_IsValidIndex
     {
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ArrayIsValidIndexPolicy_Impl<NeuteredT>;
+        using Doer = ContainerPolicyInterface_IsValidIndex<NeuteredT>;
     };
     
     // TODO: GENERIC TYPE FOR INDEX!
     template <class T>
     consteval decltype(auto) IsValidIndex(T&& container, int index)
     {
-        return ArrayIsValidIndexPolicy_Interface<T>::Doer::Do(std::forward<T>(container), index);
+        return ContainerPolicyInterface_IsValidIndex<T>::Doer::Do(std::forward<T>(container), index);
     }
 
 
@@ -104,20 +104,20 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ArrayIsEmptyPolicy_Interface
+    struct ContainerPolicyInterface_IsEmpty
     {
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ArrayIsEmptyPolicy_Impl<NeuteredT>;
+        using Doer = ContainerPolicyInterface_IsEmpty<NeuteredT>;
     };
     
     template <class T>
     consteval decltype(auto) ArrayIsEmpty(T&& container)
     {
-        return ArrayIsEmptyPolicy_Interface<T>::Doer::Do(std::forward<T>(container));
+        return ContainerPolicyInterface_IsEmpty<T>::Doer::Do(std::forward<T>(container));
     }
 
 
@@ -130,20 +130,20 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ArrayGetFrontPolicy_Interface
+    struct ContainerPolicyInterface_GetFront
     {
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ArrayGetFrontPolicy_Impl<NeuteredT>;
+        using Doer = ContainerPolicyInterface_GetFront<NeuteredT>;
     };
     
     template <class T>
     consteval decltype(auto) ArrayGetFront(T&& container)
     {
-        return ArrayGetFrontPolicy_Interface<T>::Doer::Do(std::forward<T>(container));
+        return ContainerPolicyInterface_GetFront<T>::Doer::Do(std::forward<T>(container));
     }
 
 
@@ -156,20 +156,20 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ArrayGetBackPolicy_Interface
+    struct ContainerPolicyInterface_GetBack
     {
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ArrayGetBackPolicy_Impl<NeuteredT>;
+        using Doer = ContainerPolicyInterface_GetBack<NeuteredT>;
     };
     
     template <class T>
     consteval decltype(auto) ArrayGetBack(T&& container)
     {
-        return ArrayGetBackPolicy_Interface<T>::Doer::Do(std::forward<T>(container));
+        return ContainerPolicyInterface_GetBack<T>::Doer::Do(std::forward<T>(container));
     }
 
 
@@ -183,20 +183,20 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ArrayGetElementPolicy_Interface
+    struct ContainerPolicyInterface_GetElement
     {
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to our enforcements.
-        using Doer = ArrayGetElementPolicy_Impl<NeuteredT>;
+        using Doer = ContainerPolicyInterface_GetElement<NeuteredT>;
     };
     
     // TODO: GENERIC TYPE FOR INDEX!
     template <class T>
     constexpr decltype(auto) ArrayGetElement(T&& container, int index)
     {
-        return ArrayGetElementPolicy_Interface<T>::Doer::Do(std::forward<T>(container), index);
+        return ContainerPolicyInterface_GetElement<T>::Doer::Do(std::forward<T>(container), index);
     }
 }

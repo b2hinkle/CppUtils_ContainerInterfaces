@@ -9,7 +9,7 @@
 namespace CppUtils
 {    
     template <class T, std::size_t Capacity>
-    struct ArrayGetCapacityPolicy_Impl<std::array<T, Capacity>>
+    struct ContainerPolicyInterface_GetCapacity<std::array<T, Capacity>>
     {
         static consteval std::size_t Do(const std::array<T, Capacity>&)
         {
@@ -28,7 +28,7 @@ namespace CppUtils
 
 
     template <class T, std::size_t Capacity>
-    struct ArrayGetSizePolicy_Impl<std::array<T, Capacity>>
+    struct ContainerPolicyInterface_GetSize<std::array<T, Capacity>>
     {
         static consteval std::size_t Do(const std::array<T, Capacity>&)
         {
@@ -44,7 +44,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayIsValidIndexPolicy_Impl<std::array<T, Capacity>>
+    struct ContainerPolicyInterface_IsValidIndex<std::array<T, Capacity>>
     {
         static consteval bool Do(const std::array<T, Capacity>&, const std::size_t index)
         {
@@ -63,7 +63,7 @@ namespace CppUtils
     
 
     template <class T, std::size_t Capacity>
-    struct ArrayIsEmptyPolicy_Impl<std::array<T, Capacity>>
+    struct ContainerPolicyInterface_IsEmpty<std::array<T, Capacity>>
     {
         static consteval bool Do(const std::array<T, Capacity>&)
         {
@@ -80,7 +80,7 @@ namespace CppUtils
     
 
     template <class T, std::size_t Capacity>
-    struct ArrayGetFrontPolicy_Impl<std::array<T, Capacity>>
+    struct ContainerPolicyInterface_GetFront<std::array<T, Capacity>>
     {
         static constexpr const T& Do(const std::array<T, Capacity>& arr)
         {
@@ -104,7 +104,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayGetBackPolicy_Impl<std::array<T, Capacity>>
+    struct ContainerPolicyInterface_GetBack<std::array<T, Capacity>>
     {
         static constexpr const T& Do(const std::array<T, Capacity>& arr)
         {
@@ -127,7 +127,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ArrayGetElementPolicy_Impl<std::array<T, Capacity>>
+    struct ContainerPolicyInterface_GetElement<std::array<T, Capacity>>
     {
         static constexpr const T& Do(const std::array<T, Capacity>& arr, const std::size_t index)
         {
