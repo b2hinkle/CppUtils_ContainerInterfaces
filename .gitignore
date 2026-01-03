@@ -1,6 +1,7 @@
 
 out/
 .idea/
+.vscode
 
 # "CMake.gitignore" taken from https://github.com/github/gitignore
 
