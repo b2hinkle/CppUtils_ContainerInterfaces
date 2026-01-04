@@ -4,7 +4,7 @@
 
 #include <type_traits>
 #include <utility>
-#include <CppUtils_ContainerInterfaces/PolicyPrimaryTemplates.h>
+#include <CppUtils_ContainerInterfaces/ContainerPolicies_PrimaryTemplate.h>
 
 /*
 * Accessing a container policy specialization. This removes cv and ref qualifiers in the process for compatability with the specializations.
