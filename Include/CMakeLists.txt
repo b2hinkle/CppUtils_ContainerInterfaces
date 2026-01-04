@@ -89,8 +89,8 @@ target_sources(${MY_BASE_PROJECT_NAME_FULL}_Include
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}_include_export.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerInterfaces.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/PolicyPrimaryTemplates.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerImplementations/RawArrayImplementation.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerImplementations/StdArrayImplementation.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerPoliciesSpecializations/ContainerPoliciesSpecialization_RawArray.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerPoliciesSpecializations/ContainerPoliciesSpecialization_StdArray.h"
   )
 
 # Note that we do not "find package" for our parent project. We don't need to since we are built in the same

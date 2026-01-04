@@ -100,8 +100,8 @@ block(SCOPE_FOR VARIABLES)
     "${MY_BASE_PROJECT_NAME_FULL}_Export.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/ContainerInterfaces.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/PolicyPrimaryTemplates.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/ContainerImplementations/RawArrayImplementation.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/ContainerImplementations/StdArrayImplementation.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerPoliciesSpecializations/ContainerPoliciesSpecialization_RawArray.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerPoliciesSpecializations/ContainerPoliciesSpecialization_StdArray.cpp"
     )
 
   # Add source file paths for `BUILD_LOCAL_INTERFACE` users.
