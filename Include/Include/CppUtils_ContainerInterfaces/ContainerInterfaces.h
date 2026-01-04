@@ -7,22 +7,22 @@
 #include <CppUtils_ContainerInterfaces/PolicyPrimaryTemplates.h>
 
 /*
-* Accessing a policy specialization. This removes cv and ref qualifiers in the process for compatability with the specializations.
-* For this reason we go through here for the specializations rather then directly.
+* Accessing a container policy specialization. This removes cv and ref qualifiers in the process for compatability with the specializations.
+* For this reason we go through here for the specialization types rather then directly.
 */
 namespace CppUtils
 {
     template <class T>
-    struct GetSpecializationForPolicy;
+    struct GetSpecializationForContainerPolicy;
 
     template <template <class> class TPolicy, class TContainer>
-    struct GetSpecializationForPolicy<TPolicy<TContainer>>
+    struct GetSpecializationForContainerPolicy<TPolicy<TContainer>>
     {
         using type = TPolicy<std::remove_cvref_t<TContainer>>;
     };
 
     template <class T>
-    using GetSpecializationForPolicy_t = typename GetSpecializationForPolicy<T>::type;
+    using GetSpecializationForContainerPolicy_t = typename GetSpecializationForContainerPolicy<T>::type;
 }
 
 /*
@@ -41,7 +41,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
         
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForPolicy_t<ContainerPolicy_GetCapacity<T>>;
+        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetCapacity<T>>;
     };
 
     /*
@@ -68,7 +68,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForPolicy_t<ContainerPolicy_GetSize<T>>;
+        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetSize<T>>;
     };
     
     template <class T>
@@ -93,7 +93,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForPolicy_t<ContainerPolicy_IsValidIndex<T>>;
+        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_IsValidIndex<T>>;
     };
     
     // TODO: GENERIC TYPE FOR INDEX!
@@ -122,7 +122,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForPolicy_t<ContainerPolicy_IsEmpty<T>>;
+        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_IsEmpty<T>>;
     };
     
     template <class T>
@@ -146,7 +146,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForPolicy_t<ContainerPolicy_GetFront<T>>;
+        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetFront<T>>;
     };
     
     template <class T>
@@ -170,7 +170,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForPolicy_t<ContainerPolicy_GetBack<T>>;
+        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetBack<T>>;
     };
     
     template <class T>
@@ -195,7 +195,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForPolicy_t<ContainerPolicy_GetElement<T>>;
+        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetElement<T>>;
     };
     
     // TODO: GENERIC TYPE FOR INDEX!
