@@ -3,7 +3,6 @@
 #pragma once
 
 #include <type_traits>
-#include <utility>
 #include <CppUtils_ContainerInterfaces/ContainerPolicies_PrimaryTemplate.h>
 
 /*

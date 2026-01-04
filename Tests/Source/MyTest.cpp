@@ -10,33 +10,33 @@ int main(int argc, char** argv)
         bool isSuccess = true;
         
         const int rawArr[] = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::GetContainerCapacity(rawArr);
-        constexpr int size = CppUtils::GetContainerSize(rawArr);
+        constexpr int capacity = CppUtils::ContainerOps::GetCapacity(rawArr);
+        constexpr int size = CppUtils::ContainerOps::GetSize(rawArr);
         if (size != capacity) // Constant size arrays have same size and capacity.
         {
             isSuccess = false;
         }
 
-        const bool isValidIndex = CppUtils::IsValidIndexForContainer(rawArr, 1);
+        const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex(rawArr, 1);
 
-        if (CppUtils::IsContainerEmpty(rawArr))
+        if (CppUtils::ContainerOps::IsEmpty(rawArr))
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement1 = CppUtils::GetContainerElement(rawArr, 0);
+        const int& gottenRawArrElement1 = CppUtils::ContainerOps::GetElement(rawArr, 0);
         if (gottenRawArrElement1 != 0)
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement2 = CppUtils::GetContainerElement(rawArr, 1);
+        const int& gottenRawArrElement2 = CppUtils::ContainerOps::GetElement(rawArr, 1);
         if (gottenRawArrElement2 != 1)
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement3 = CppUtils::GetContainerElement(rawArr, 2);
+        const int& gottenRawArrElement3 = CppUtils::ContainerOps::GetElement(rawArr, 2);
         if (gottenRawArrElement3 != 2)
         {
             isSuccess = false;
@@ -47,18 +47,18 @@ int main(int argc, char** argv)
         bool isSuccess = true;
 
         constexpr std::array<int, 3> stdArr = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::GetContainerCapacity(stdArr);
-        constexpr int front = CppUtils::GetContainerFront(stdArr);
-        constexpr int back = CppUtils::GetContainerBack(stdArr);
-        const int& gottenStdArrElement = CppUtils::GetContainerElement(stdArr, 1);
+        constexpr int capacity = CppUtils::ContainerOps::GetCapacity(stdArr);
+        constexpr int front = CppUtils::ContainerOps::GetFront(stdArr);
+        constexpr int back = CppUtils::ContainerOps::GetBack(stdArr);
+        const int& gottenStdArrElement = CppUtils::ContainerOps::GetElement(stdArr, 1);
 
-        if (CppUtils::IsContainerEmpty(stdArr))
+        if (CppUtils::ContainerOps::IsEmpty(stdArr))
         {
             isSuccess = false;
         }
 
         constexpr std::array<int, 0> stdArrZeroSize;
-        if (!CppUtils::IsContainerEmpty(stdArrZeroSize))
+        if (!CppUtils::ContainerOps::IsEmpty(stdArrZeroSize))
         {
             isSuccess = false;
         }
@@ -66,9 +66,9 @@ int main(int argc, char** argv)
 
     {
         static const std::array<int, 3> stdArr = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::GetContainerCapacity(stdArr);
+        constexpr int capacity = CppUtils::ContainerOps::GetCapacity(stdArr);
         constexpr int rawArr[] = { 0, 1, 2 };
-        constexpr int gottenStdArrElement = CppUtils::GetContainerElement(rawArr, 1);
+        constexpr int gottenStdArrElement = CppUtils::ContainerOps::GetElement(rawArr, 1);
 
     }
 }
