@@ -6,8 +6,6 @@
 
 /*
 * Static interfaces for container operations which callers go through for generically calling on a container's operation implementation.
-* TODO: Make a non-consteval version to account for dynamically sized arrays.
-* TODO: Potentally also make a pass by value overload, especially helpful for static arrays.
 */
 namespace CppUtils
 {
