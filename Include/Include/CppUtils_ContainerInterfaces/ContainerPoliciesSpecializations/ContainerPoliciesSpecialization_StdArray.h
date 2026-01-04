@@ -3,7 +3,6 @@
 #pragma once
 
 #include <array>
-#include <type_traits>
 #include <CppUtils_ContainerInterfaces/PolicyPrimaryTemplates.h>
 
 namespace CppUtils
