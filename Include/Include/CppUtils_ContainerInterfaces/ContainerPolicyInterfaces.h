@@ -18,7 +18,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
         
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetCapacity<T>>;
+        using Doer = ContainerPolicyUtils::GetSpecializationForContainerPolicy_t<ContainerPolicy_GetCapacity<T>>;
     };
 
     /*
@@ -30,7 +30,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetSize<T>>;
+        using Doer = ContainerPolicyUtils::GetSpecializationForContainerPolicy_t<ContainerPolicy_GetSize<T>>;
     };
 
     /*
@@ -42,7 +42,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_IsValidIndex<T>>;
+        using Doer = ContainerPolicyUtils::GetSpecializationForContainerPolicy_t<ContainerPolicy_IsValidIndex<T>>;
     };
     
     /*
@@ -54,7 +54,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_IsEmpty<T>>;
+        using Doer = ContainerPolicyUtils::GetSpecializationForContainerPolicy_t<ContainerPolicy_IsEmpty<T>>;
     };
     
     /*
@@ -66,7 +66,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetFront<T>>;
+        using Doer = ContainerPolicyUtils::GetSpecializationForContainerPolicy_t<ContainerPolicy_GetFront<T>>;
     };
 
     /*
@@ -78,7 +78,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetBack<T>>;
+        using Doer = ContainerPolicyUtils::GetSpecializationForContainerPolicy_t<ContainerPolicy_GetBack<T>>;
     };
     
     /*
@@ -90,6 +90,6 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
 
         // Our implementer which conforms to our enforcements.
-        using Doer = GetSpecializationForContainerPolicy_t<ContainerPolicy_GetElement<T>>;
+        using Doer = ContainerPolicyUtils::GetSpecializationForContainerPolicy_t<ContainerPolicy_GetElement<T>>;
     };
 }

@@ -9,7 +9,7 @@
 * Accessing a container policy specialization. This removes cv and ref qualifiers in the process for compatability with the specializations.
 * For this reason we go through here for the specialization types rather then directly.
 */
-namespace CppUtils
+namespace CppUtils::ContainerPolicyUtils
 {
     template <class T>
     struct GetSpecializationForContainerPolicy;
