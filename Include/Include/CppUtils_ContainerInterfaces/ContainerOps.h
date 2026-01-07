@@ -28,9 +28,8 @@ namespace CppUtils::ContainerOps
     }
 
    
-    // TODO: GENERIC TYPE FOR INDEX!
     template <class T>
-    consteval decltype(auto) IsValidIndex(T&& container, int index)
+    consteval decltype(auto) IsValidIndex(T&& container, typename ContainerPolicyInterface_IsValidIndex<T>::TSecondParam index)
     {
         return ContainerPolicyInterface_IsValidIndex<T>::Doer::Do(std::forward<T>(container), index);
     }

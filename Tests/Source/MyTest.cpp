@@ -52,6 +52,8 @@ int main(int argc, char** argv)
         constexpr int back = CppUtils::ContainerOps::GetBack(stdArr);
         const int& gottenStdArrElement = CppUtils::ContainerOps::GetElement(stdArr, 1);
 
+        const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex(stdArr, 1);
+
         if (CppUtils::ContainerOps::IsEmpty(stdArr))
         {
             isSuccess = false;
