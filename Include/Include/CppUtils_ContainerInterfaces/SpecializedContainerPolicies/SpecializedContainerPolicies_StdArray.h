@@ -10,17 +10,13 @@ namespace CppUtils
     template <class T, std::size_t Capacity>
     struct ContainerPolicy_GetCapacity<std::array<T, Capacity>>
     {
-        static consteval std::size_t Do(const std::array<T, Capacity>&)
+        consteval ContainerPolicy_GetCapacity(const std::array<T, Capacity>&)
+            : Value(Capacity)
         {
-            return Capacity;
         }
-        
-        static consteval std::size_t Do(std::array<T, Capacity>&)
-        {
-            return Capacity;
-        }
-    };
 
+        const std::size_t Value{};
+    };
 
 
 

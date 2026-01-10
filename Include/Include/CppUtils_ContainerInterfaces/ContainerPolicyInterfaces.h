@@ -35,14 +35,21 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerPolicyInterface_GetCapacity
-        : ContainerPolicyInterface_Base<ContainerPolicy_GetCapacity, T>
-    {    
-        using TBase = ContainerPolicyInterface_Base<ContainerPolicy_GetCapacity, T>;
-        using typename TBase::Doer;
-        using typename TBase::NeuteredT;
-
+        : ContainerPolicy_GetCapacity<std::remove_cvref_t<T>>
+    {
+        using Base = ContainerPolicy_GetCapacity<std::remove_cvref_t<T>>;
+        using Base::Base;
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
+
+    // Deduction guide for more convenient user api.
+    template <typename T, std::size_t Capacity>
+    ContainerPolicyInterface_GetCapacity(const std::array<T, Capacity>&)
+        -> ContainerPolicyInterface_GetCapacity<std::array<T, Capacity>>;
+
+    template <typename T, std::size_t Capacity>
+    ContainerPolicyInterface_GetCapacity(const T (&)[Capacity])
+        -> ContainerPolicyInterface_GetCapacity<T[Capacity]>;
 
     /*
     *

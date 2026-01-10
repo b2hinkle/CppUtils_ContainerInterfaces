@@ -15,7 +15,7 @@ namespace CppUtils::ContainerOps
     * Gets the capacity.
     */
     template <class ContainerType>
-    using GetCapacity = ContainerPolicyInterface_GetCapacity<ContainerType>::Doer;
+    using GetCapacity = ContainerPolicyInterface_GetCapacity<ContainerType>;
 
     template <class ContainerType>
     using GetSize = ContainerPolicyInterface_GetSize<ContainerType>::Doer;
