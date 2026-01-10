@@ -14,18 +14,11 @@ namespace CppUtils::ContainerOps
     /*
     * Gets the capacity.
     */
-    template <class T>
-    consteval decltype(auto) GetCapacity(T&& container)
-    {
-        return ContainerPolicyInterface_GetCapacity<T>::Doer::Do(std::forward<T>(container));
-    }
+    template <class ContainerType>
+    using GetCapacity = ContainerPolicyInterface_GetCapacity<ContainerType>::Doer;
 
-
-    template <class T>
-    consteval decltype(auto) GetSize(T&& container)
-    {
-        return ContainerPolicyInterface_GetSize<T>::Doer::Do(std::forward<T>(container));
-    }
+    template <class ContainerType>
+    using GetSize = ContainerPolicyInterface_GetSize<ContainerType>::Doer;
 
    
     template <class T>
