@@ -22,7 +22,7 @@ namespace CppUtils
     };
 
     template <class Doer>
-    using DoFunctionTraitsForDoer = FunctionPointerTraits<decltype(&Doer::Do)>;
+    using DoFunctionTraitsForDoer = FunctionTraits<decltype(Doer::Do)>;
 }
 
 /*
