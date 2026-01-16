@@ -22,8 +22,9 @@ namespace CppUtils
         using Doer = TContainerOp<NeuteredT>;
     };
 
-    template <class Doer>
-    using DoFunctionTraitsForDoer = FunctionTraits<decltype(Doer::Do)>;
+    // TODO: I believe GCC will complain about ptr type to consteval member func. Look into potential workaround.
+    template <class Op>
+    using DoFunctionTraitsForOp = FunctionTraits<decltype(&Op::Do)>;
 }
 
 /*
@@ -35,8 +36,8 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ContainerOpInterface_GetCapacity :
-        ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>
+    struct ContainerOpInterface_GetCapacity
+        : ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>
     {
         using Base = ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>;
         using Base::Base; // Inherit ctr(s) from our implementer.
@@ -60,92 +61,143 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetSize
-        : ContainerOpInterface_Base<ContainerOp_GetSize, T>
+        : ContainerOp_GetSize<T, std::remove_cvref_t<T>>
     {
-        using TBase = ContainerOpInterface_Base<ContainerOp_GetSize, T>;
-        using typename TBase::Doer;
-        using typename TBase::NeuteredT;
+        using Base = ContainerOp_GetSize<T, std::remove_cvref_t<T>>;
+        using Base::Base; // Inherit ctr(s) from our implementer.
+        
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
+
+    // Deduction guide for more convenient user api.
+    template <class T>
+    ContainerOpInterface_GetSize(T&)
+        -> ContainerOpInterface_GetSize<T&>;
+        
+    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
+    template <class T, std::size_t Capacity>
+    ContainerOpInterface_GetSize(const T (&)[Capacity])
+        -> ContainerOpInterface_GetSize<const T (&)[Capacity]>;
 
     /*
     * TODO: I've started on some static assertions for this interface. We need to both finish this one, and make enforcements for the rest of the ops.
     */
     template <class T>
     struct ContainerOpInterface_IsValidIndex
-        : ContainerOpInterface_Base<ContainerOp_IsValidIndex, T>
+        : ContainerOp_IsValidIndex<T, std::remove_cvref_t<T>>
     {
-        using TBase = ContainerOpInterface_Base<ContainerOp_IsValidIndex, T>;
-        using typename TBase::Doer;
-        using typename TBase::NeuteredT;
+        using Base = ContainerOp_IsValidIndex<T, std::remove_cvref_t<T>>;
+        using Base::Base; // Inherit ctr(s) from our implementer.
 
+        // TODO: We'll probably want this to be in base checks.
         static_assert
         (
-            requires { typename DoFunctionTraitsForDoer<Doer>; },
+            requires { typename DoFunctionTraitsForOp<Base>; },
             "Container op must have a Do callable."
         );
-        using DoFunctionTraits = DoFunctionTraitsForDoer<Doer>;
+        using DoFunctionTraits = DoFunctionTraitsForOp<Base>;
 
         static_assert
         (
-            std::tuple_size_v<typename DoFunctionTraits::ArgsTuple> == 2,
-            "Do callable must have 2 parameters."
+            std::tuple_size_v<typename DoFunctionTraits::ArgsTuple> == 1,
+            "Do callable must have 1 parameter."
         );
 
+        // TODO: We'll probably want this to be in base checks.
         static_assert
         (
-            std::is_same_v<typename DoFunctionTraits::ClassType, void>,
-            "Do callable must be static."
+            !std::is_same_v<typename DoFunctionTraits::ClassType, void>,
+            "Do callable must be non-static."
         );
-
-        using TFirstParam  = std::tuple_element_t<0, typename DoFunctionTraits::ArgsTuple>;
-        using TSecondParam = std::tuple_element_t<1, typename DoFunctionTraits::ArgsTuple>;
-        
-        //static_assert(sizeof(T) && std::is_invocable_v<decltype(Doer::Do), const NeuteredT&, IndexType>, "Op specialization must have a callable Do function with correct parameters.");
     };
+
+    // Deduction guide for more convenient user api.
+    template <class T>
+    ContainerOpInterface_IsValidIndex(T&)
+        -> ContainerOpInterface_IsValidIndex<T&>;
+        
+    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
+    template <class T, std::size_t Capacity>
+    ContainerOpInterface_IsValidIndex(const T (&)[Capacity])
+        -> ContainerOpInterface_IsValidIndex<const T (&)[Capacity]>;
     
     /*
     *
     */
     template <class T>
     struct ContainerOpInterface_IsEmpty
-        : ContainerOpInterface_Base<ContainerOp_IsEmpty, T>
+        : ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>
     {
-        using TBase = ContainerOpInterface_Base<ContainerOp_IsEmpty, T>;
-        using typename TBase::Doer;
-        using typename TBase::NeuteredT;
+        using Base = ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>;
+        using Base::Base; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
+
+    // Deduction guide for more convenient user api.
+    template <class T>
+    ContainerOpInterface_IsEmpty(T&)
+        -> ContainerOpInterface_IsEmpty<T&>;
+        
+    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
+    template <class T, std::size_t Capacity>
+    ContainerOpInterface_IsEmpty(const T (&)[Capacity])
+        -> ContainerOpInterface_IsEmpty<const T (&)[Capacity]>;
     
     /*
     *
     */
     template <class T>
     struct ContainerOpInterface_GetFront
-        : ContainerOpInterface_Base<ContainerOp_GetFront, T>
+        : ContainerOp_GetFront<T, std::remove_cvref_t<T>>
     {
-        using TBase = ContainerOpInterface_Base<ContainerOp_GetFront, T>;
-        using typename TBase::Doer;
-        using typename TBase::NeuteredT;
+        using Base = ContainerOp_GetFront<T, std::remove_cvref_t<T>>;
+        using Base::Base; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
+
+    // Deduction guide for more convenient user api.
+    template <class T>
+    ContainerOpInterface_GetFront(T&)
+        -> ContainerOpInterface_GetFront<T&>;
+        
+    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
+    template <class T, std::size_t Capacity>
+    ContainerOpInterface_GetFront(const T (&)[Capacity])
+        -> ContainerOpInterface_GetFront<const T (&)[Capacity]>;
+
+    template <class T, std::size_t Capacity>
+    ContainerOpInterface_GetFront(T (&)[Capacity])
+        -> ContainerOpInterface_GetFront<T (&)[Capacity]>;
 
     /*
     *
     */
     template <class T>
     struct ContainerOpInterface_GetBack
-        : ContainerOpInterface_Base<ContainerOp_GetBack, T>
+        : ContainerOp_GetBack<T, std::remove_cvref_t<T>>
     {
-        using TBase = ContainerOpInterface_Base<ContainerOp_GetBack, T>;
-        using typename TBase::Doer;
-        using typename TBase::NeuteredT;
+        using Base = ContainerOp_GetBack<T, std::remove_cvref_t<T>>;
+        using Base::Base; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
+
+    // Deduction guide for more convenient user api.
+    template <class T>
+    ContainerOpInterface_GetBack(T&)
+        -> ContainerOpInterface_GetBack<T&>;
+        
+    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
+    template <class T, std::size_t Capacity>
+    ContainerOpInterface_GetBack(const T (&)[Capacity])
+        -> ContainerOpInterface_GetBack<const T (&)[Capacity]>;
+
+    template <class T, std::size_t Capacity>
+    ContainerOpInterface_GetBack(T (&)[Capacity])
+        -> ContainerOpInterface_GetBack<T (&)[Capacity]>;
     
     /*
     *

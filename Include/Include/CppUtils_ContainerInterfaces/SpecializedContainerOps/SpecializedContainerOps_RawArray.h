@@ -15,7 +15,7 @@ namespace CppUtils
         {
         }
 
-        consteval std::size_t Do() { return Capacity; }
+        consteval std::size_t Do() const { return Capacity; }
     };
 
 
@@ -26,13 +26,14 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_GetSize<T[Capacity]>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_GetSize<T, ElementType[Capacity]>
     {
-        static consteval std::size_t Do(const T (&)[Capacity])
+        consteval explicit ContainerOp_GetSize(const ElementType (&)[Capacity])
         {
-            return Capacity;
         }
+
+        consteval std::size_t Do() const { return Capacity; }
     };
     
 
@@ -40,10 +41,14 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_IsValidIndex<T[Capacity]>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_IsValidIndex<T, ElementType[Capacity]>
     {
-        static consteval bool Do(const T (&)[Capacity], const std::size_t index)
+        consteval explicit ContainerOp_IsValidIndex(const ElementType (&)[Capacity])
+        {
+        }
+
+        consteval bool Do(const std::size_t index) const
         {
             return index >= 0
                 && index < Capacity;
@@ -58,10 +63,15 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_IsEmpty<T[Capacity]>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_IsEmpty<T, ElementType[Capacity]>
     {
-        static consteval bool Do(const T (&)[Capacity])
+        consteval explicit ContainerOp_IsEmpty(const ElementType (&)[Capacity])
+        {
+
+        }
+
+        consteval bool Do()
         {
             // NOTE: It is not possible for raw arrays to exist with no size/capacity.
             return false;
@@ -75,20 +85,36 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_GetFront<T[Capacity]>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_GetFront<T, ElementType[Capacity]>
     {
-        static constexpr const T& Do(const T (&arr)[Capacity])
+        constexpr explicit ContainerOp_GetFront(const ElementType (&arr)[Capacity])
+            : Arr(arr)
+        {
+        }
+
+        constexpr explicit ContainerOp_GetFront(ElementType (&arr)[Capacity])
+            : Arr(arr)
+        {
+        }
+
+        constexpr const ElementType& Do()
+            requires (IsConstAfterRemovingRef<T>())
         {
             static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
-            return arr[0];
+            return Arr[0];
+        }
+
+        constexpr ElementType& Do()
+            requires (!IsConstAfterRemovingRef<T>())
+        {
+            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
+            return Arr[0];
         }
         
-        static constexpr T& Do(T (&arr)[Capacity])
-        {
-            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
-            return arr[0];
-        }
+private:
+
+        T Arr {};
     };
     
     
@@ -98,20 +124,36 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_GetBack<T[Capacity]>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_GetBack<T, ElementType[Capacity]>
     {
-        static constexpr const T& Do(const T (&arr)[Capacity])
+        constexpr explicit ContainerOp_GetBack(const ElementType (&arr)[Capacity])
+            : Arr(arr)
+        {
+        }
+
+        constexpr explicit ContainerOp_GetBack(ElementType (&arr)[Capacity])
+            : Arr(arr)
+        {
+        }
+
+        constexpr const ElementType& Do()
+            requires (IsConstAfterRemovingRef<T>())
         {
             static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
-            return arr[Capacity - 1];
+            return Arr[Capacity - 1];
+        }
+
+        constexpr ElementType& Do()
+            requires (!IsConstAfterRemovingRef<T>())
+        {
+            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
+            return Arr[Capacity - 1];
         }
         
-        static constexpr T& Do(T (&arr)[Capacity])
-        {
-            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
-            return arr[Capacity - 1];
-        }
+private:
+
+        T Arr {};
     };
     
     

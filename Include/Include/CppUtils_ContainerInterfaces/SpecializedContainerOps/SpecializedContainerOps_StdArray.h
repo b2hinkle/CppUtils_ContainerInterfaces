@@ -15,20 +15,21 @@ namespace CppUtils
         {
         }
 
-        consteval std::size_t Do() { return Capacity; }
+        consteval std::size_t Do() const { return Capacity; }
     };
 
 
 
 
 
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_GetSize<std::array<T, Capacity>>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_GetSize<T, std::array<ElementType, Capacity>>
     {
-        static consteval std::size_t Do(const std::array<T, Capacity>&)
+        consteval explicit ContainerOp_GetSize(const std::array<ElementType, Capacity>&)
         {
-            return Capacity;
         }
+
+        consteval std::size_t Do() const { return Capacity; }
     };
     
 
@@ -38,10 +39,14 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_IsValidIndex<std::array<T, Capacity>>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_IsValidIndex<T, std::array<ElementType, Capacity>>
     {
-        static consteval bool Do(const std::array<T, Capacity>&, const std::size_t index)
+        consteval explicit ContainerOp_IsValidIndex(const std::array<ElementType, Capacity>&)
+        {
+        }
+
+        consteval bool Do(const std::size_t index) const
         {
             return index >= 0
                 && index < Capacity;
@@ -57,10 +62,14 @@ namespace CppUtils
     
     
 
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_IsEmpty<std::array<T, Capacity>>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_IsEmpty<T, std::array<ElementType, Capacity>>
     {
-        static consteval bool Do(const std::array<T, Capacity>&)
+        consteval explicit ContainerOp_IsEmpty(const std::array<ElementType, Capacity>&)
+        {
+        }
+
+        consteval bool Do()
         {
             return Capacity == 0;
         }
@@ -74,20 +83,36 @@ namespace CppUtils
 
     
 
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_GetFront<std::array<T, Capacity>>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_GetFront<T, std::array<ElementType, Capacity>>
     {
-        static constexpr const T& Do(const std::array<T, Capacity>& arr)
+        constexpr explicit ContainerOp_GetFront(const std::array<ElementType, Capacity>& arr)
+            : Arr(arr)
+        {
+        }
+
+        constexpr explicit ContainerOp_GetFront(std::array<ElementType, Capacity>& arr)
+            : Arr(arr)
+        {
+        }
+
+        constexpr const ElementType& Do()
+            requires (IsConstAfterRemovingRef<T>())
         {
             static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
-            return arr.front();
+            return Arr.front();
+        }
+
+        constexpr ElementType& Do()
+            requires (!IsConstAfterRemovingRef<T>())
+        {
+            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            return Arr.front();
         }
         
-        static constexpr T& Do(std::array<T, Capacity>& arr)
-        {
-            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
-            return arr.front();
-        }
+private:
+
+        T Arr {};
     };
     
     
@@ -98,20 +123,36 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_GetBack<std::array<T, Capacity>>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_GetBack<T, std::array<ElementType, Capacity>>
     {
-        static constexpr const T& Do(const std::array<T, Capacity>& arr)
+        constexpr explicit ContainerOp_GetBack(const std::array<ElementType, Capacity>& arr)
+            : Arr(arr)
+        {
+        }
+
+        constexpr explicit ContainerOp_GetBack(std::array<ElementType, Capacity>& arr)
+            : Arr(arr)
+        {
+        }
+
+        constexpr const ElementType& Do()
+            requires (IsConstAfterRemovingRef<T>())
         {
             static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
-            return arr.back();
+            return Arr.back();
+        }
+
+        constexpr ElementType& Do()
+            requires (!IsConstAfterRemovingRef<T>())
+        {
+            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            return Arr.back();
         }
         
-        static constexpr T& Do(std::array<T, Capacity>& arr)
-        {
-            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
-            return arr.back();
-        }
+private:
+
+        T Arr {};
     };
     
     

@@ -12,15 +12,15 @@ int main(int argc, char** argv)
         int rawArr[] = { 0, 1, 2 };
         
         constexpr std::size_t capacity = CppUtils::ContainerOps::GetCapacity(rawArr).Do();
-        constexpr int size = CppUtils::ContainerOps::GetSize<decltype(rawArr)>::Do(rawArr);
+        constexpr int size = CppUtils::ContainerOps::GetSize(rawArr).Do();
         if (size != capacity) // Constant size arrays have same size and capacity.
         {
             isSuccess = false;
         }
 
-        const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex(rawArr, 1);
+        const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex(rawArr).Do(1);
 
-        if (CppUtils::ContainerOps::IsEmpty(rawArr))
+        if (CppUtils::ContainerOps::IsEmpty(rawArr).Do())
         {
             isSuccess = false;
         }
@@ -52,23 +52,23 @@ int main(int argc, char** argv)
         using neuteredT = std::remove_cvref_t<decltype(stdArr)>;
 
         const std::size_t capacity = CppUtils::ContainerOps::GetCapacity(stdArr).Do();
-        constexpr int front = CppUtils::ContainerOps::GetFront(stdArr);
-        constexpr int back = CppUtils::ContainerOps::GetBack(stdArr);
+        constexpr int front = CppUtils::ContainerOps::GetFront(stdArr).Do();
+        constexpr int back = CppUtils::ContainerOps::GetBack(stdArr).Do();
         const int& gottenStdArrElement = CppUtils::ContainerOps::GetElement(stdArr).Do(1);
 
         
         const std::array<int, 3> constArr = { 0, 1, 2 };
         const int& constEl = CppUtils::ContainerOps::GetElement(constArr).Do(1);
 
-        const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex(stdArr, 1);
+        const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex(stdArr).Do(1);
 
-        if (CppUtils::ContainerOps::IsEmpty(stdArr))
+        if (CppUtils::ContainerOps::IsEmpty(stdArr).Do())
         {
             isSuccess = false;
         }
 
         constexpr std::array<int, 0> stdArrZeroSize;
-        if (!CppUtils::ContainerOps::IsEmpty(stdArrZeroSize))
+        if (!CppUtils::ContainerOps::IsEmpty(stdArrZeroSize).Do())
         {
             isSuccess = false;
         }
