@@ -21,10 +21,6 @@ namespace CppUtils
         // Our implementer which conforms to this interface.
         using Doer = TContainerOp<NeuteredT>;
     };
-
-    // TODO: I believe GCC will complain about ptr type to consteval member func. Look into potential workaround.
-    template <class Op>
-    using DoFunctionTraitsForOp = FunctionTraits<decltype(&Op::Do)>;
 }
 
 /*
