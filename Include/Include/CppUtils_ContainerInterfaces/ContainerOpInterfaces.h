@@ -39,8 +39,8 @@ namespace CppUtils
     struct ContainerOpInterface_GetCapacity
         : ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>
     {
-        using Base = ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>;
-        using Base::Base; // Inherit ctr(s) from our implementer.
+        using Op = ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>;
+        using Op::Op; // Inherit ctr(s) from our implementer.
         
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
@@ -63,8 +63,8 @@ namespace CppUtils
     struct ContainerOpInterface_GetSize
         : ContainerOp_GetSize<T, std::remove_cvref_t<T>>
     {
-        using Base = ContainerOp_GetSize<T, std::remove_cvref_t<T>>;
-        using Base::Base; // Inherit ctr(s) from our implementer.
+        using Op = ContainerOp_GetSize<T, std::remove_cvref_t<T>>;
+        using Op::Op; // Inherit ctr(s) from our implementer.
         
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
@@ -87,28 +87,16 @@ namespace CppUtils
     struct ContainerOpInterface_IsValidIndex
         : ContainerOp_IsValidIndex<T, std::remove_cvref_t<T>>
     {
-        using Base = ContainerOp_IsValidIndex<T, std::remove_cvref_t<T>>;
-        using Base::Base; // Inherit ctr(s) from our implementer.
-
-        // TODO: We'll probably want this to be in base checks.
-        static_assert
-        (
-            requires { typename DoFunctionTraitsForOp<Base>; },
-            "Container op must have a Do callable."
-        );
-        using DoFunctionTraits = DoFunctionTraitsForOp<Base>;
+        using Op = ContainerOp_IsValidIndex<T, std::remove_cvref_t<T>>;
+        using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
         (
-            std::tuple_size_v<typename DoFunctionTraits::ArgsTuple> == 1,
-            "Do callable must have 1 parameter."
-        );
-
-        // TODO: We'll probably want this to be in base checks.
-        static_assert
-        (
-            !std::is_same_v<typename DoFunctionTraits::ClassType, void>,
-            "Do callable must be non-static."
+            requires(Op& IsValidIndexOp)
+            {
+                { IsValidIndexOp.Do(1) } -> std::same_as<bool>;
+            },
+            "Container op must have Do function with an index parameter and bool return type."
         );
     };
 
@@ -129,8 +117,8 @@ namespace CppUtils
     struct ContainerOpInterface_IsEmpty
         : ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>
     {
-        using Base = ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>;
-        using Base::Base; // Inherit ctr(s) from our implementer.
+        using Op = ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>;
+        using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
@@ -152,8 +140,8 @@ namespace CppUtils
     struct ContainerOpInterface_GetFront
         : ContainerOp_GetFront<T, std::remove_cvref_t<T>>
     {
-        using Base = ContainerOp_GetFront<T, std::remove_cvref_t<T>>;
-        using Base::Base; // Inherit ctr(s) from our implementer.
+        using Op = ContainerOp_GetFront<T, std::remove_cvref_t<T>>;
+        using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
@@ -179,8 +167,8 @@ namespace CppUtils
     struct ContainerOpInterface_GetBack
         : ContainerOp_GetBack<T, std::remove_cvref_t<T>>
     {
-        using Base = ContainerOp_GetBack<T, std::remove_cvref_t<T>>;
-        using Base::Base; // Inherit ctr(s) from our implementer.
+        using Op = ContainerOp_GetBack<T, std::remove_cvref_t<T>>;
+        using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
@@ -206,8 +194,8 @@ namespace CppUtils
     struct ContainerOpInterface_GetElement
         : ContainerOp_GetElement<T, std::remove_cvref_t<T>>
     {        
-        using Base = ContainerOp_GetElement<T, std::remove_cvref_t<T>>;
-        using Base::Base; // Inherit ctr(s) from our implementer.
+        using Op = ContainerOp_GetElement<T, std::remove_cvref_t<T>>;
+        using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
