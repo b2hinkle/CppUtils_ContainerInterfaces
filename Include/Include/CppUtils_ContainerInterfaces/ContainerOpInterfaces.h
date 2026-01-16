@@ -36,9 +36,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetCapacity :
-        ContainerOp_GetCapacity<std::remove_cvref_t<T>>
+        ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>
     {
-        using Base = ContainerOp_GetCapacity<std::remove_cvref_t<T>>;
+        using Base = ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>;
         using Base::Base; // Inherit ctr(s) from our implementer.
         
 

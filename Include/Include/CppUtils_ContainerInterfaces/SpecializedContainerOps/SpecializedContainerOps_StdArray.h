@@ -8,10 +8,10 @@
 
 namespace CppUtils
 {    
-    template <class T, std::size_t Capacity>
-    struct ContainerOp_GetCapacity<std::array<T, Capacity>>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerOp_GetCapacity<T, std::array<ElementType, Capacity>>
     {
-        consteval explicit ContainerOp_GetCapacity(const std::array<T, Capacity>&)
+        consteval explicit ContainerOp_GetCapacity(const std::array<ElementType, Capacity>&)
         {
         }
 

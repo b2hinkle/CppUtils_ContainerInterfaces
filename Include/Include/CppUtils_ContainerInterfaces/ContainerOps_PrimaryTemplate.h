@@ -7,8 +7,7 @@
 */
 namespace CppUtils
 {
-
-    template <class T>
+    template <class T, class NeuteredT>
     struct ContainerOp_GetCapacity;
     
     template <class T>
