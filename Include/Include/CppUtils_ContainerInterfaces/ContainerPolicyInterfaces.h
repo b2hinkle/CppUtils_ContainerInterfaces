@@ -10,6 +10,7 @@ namespace CppUtils
 {
     /*
     * Base class for container policy interfaces. Responsible for the shared needs of all container policy interfaces to keep code consolidated.
+    * TODO: Enforce that implementation's ctr takes in reference to container type.
     */
     template <template<class> class TContainerPolicy, class T>
     struct ContainerPolicyInterface_Base
@@ -34,22 +35,25 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ContainerPolicyInterface_GetCapacity
-        : ContainerPolicy_GetCapacity<std::remove_cvref_t<T>>
+    struct ContainerPolicyInterface_GetCapacity :
+        ContainerPolicy_GetCapacity<std::remove_cvref_t<T>>
     {
         using Base = ContainerPolicy_GetCapacity<std::remove_cvref_t<T>>;
-        using Base::Base;
+        using Base::Base; // Inherit ctr(s) from our implementer.
+        
+
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
 
     // Deduction guide for more convenient user api.
-    template <typename T, std::size_t Capacity>
-    ContainerPolicyInterface_GetCapacity(const std::array<T, Capacity>&)
-        -> ContainerPolicyInterface_GetCapacity<std::array<T, Capacity>>;
-
-    template <typename T, std::size_t Capacity>
+    template <class T>
+    ContainerPolicyInterface_GetCapacity(T&)
+        -> ContainerPolicyInterface_GetCapacity<T&>;
+        
+    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
+    template <class T, std::size_t Capacity>
     ContainerPolicyInterface_GetCapacity(const T (&)[Capacity])
-        -> ContainerPolicyInterface_GetCapacity<T[Capacity]>;
+        -> ContainerPolicyInterface_GetCapacity<const T (&)[Capacity]>;
 
     /*
     *
@@ -148,12 +152,25 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerPolicyInterface_GetElement
-        : ContainerPolicyInterface_Base<ContainerPolicy_GetElement, T>
-    {
-        using TBase = ContainerPolicyInterface_Base<ContainerPolicy_GetElement, T>;
-        using typename TBase::Doer;
-        using typename TBase::NeuteredT;
+        : ContainerPolicy_GetElement<T, std::remove_cvref_t<T>>
+    {        
+        using Base = ContainerPolicy_GetElement<T, std::remove_cvref_t<T>>;
+        using Base::Base; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
+
+    // Deduction guide for more convenient user api.
+    template <class T>
+    ContainerPolicyInterface_GetElement(T&)
+        -> ContainerPolicyInterface_GetElement<T&>;
+        
+    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
+    template <class T, std::size_t Capacity>
+    ContainerPolicyInterface_GetElement(const T (&)[Capacity])
+        -> ContainerPolicyInterface_GetElement<const T (&)[Capacity]>;
+
+    template <class T, std::size_t Capacity>
+    ContainerPolicyInterface_GetElement(T (&)[Capacity])
+        -> ContainerPolicyInterface_GetElement<T (&)[Capacity]>;
 }

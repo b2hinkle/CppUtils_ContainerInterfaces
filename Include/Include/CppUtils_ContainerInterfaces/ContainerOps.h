@@ -48,11 +48,9 @@ namespace CppUtils::ContainerOps
         return ContainerPolicyInterface_GetBack<T>::Doer::Do(std::forward<T>(container));
     }
 
-
-    // TODO: GENERIC TYPE FOR INDEX!
-    template <class T>
-    constexpr decltype(auto) GetElement(T&& container, int index)
-    {
-        return ContainerPolicyInterface_GetElement<T>::Doer::Do(std::forward<T>(container), index);
-    }
+    /*
+    * 
+    */
+    template <class ContainerType>
+    using GetElement = ContainerPolicyInterface_GetElement<ContainerType>;
 }

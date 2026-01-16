@@ -26,7 +26,8 @@ namespace CppUtils
     template <class T>
     struct ContainerPolicy_GetBack;
     
-    template <class T>
+    // TODO: I believe we want this to be a better name, possibly use the term subscript. Reason is because we might have an At policy that does bounds checking.
+    template <class T, class NeuteredT>
     struct ContainerPolicy_GetElement;
 
 }
