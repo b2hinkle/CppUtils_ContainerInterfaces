@@ -4,14 +4,14 @@
 
 #include <array>
 #include <CppUtils_Misc/TypeTraits.h>
-#include <CppUtils_ContainerInterfaces/ContainerPolicies_PrimaryTemplate.h>
+#include <CppUtils_ContainerInterfaces/ContainerOps_PrimaryTemplate.h>
 
 namespace CppUtils
 {    
     template <class T, std::size_t Capacity>
-    struct ContainerPolicy_GetCapacity<std::array<T, Capacity>>
+    struct ContainerOp_GetCapacity<std::array<T, Capacity>>
     {
-        consteval explicit ContainerPolicy_GetCapacity(const std::array<T, Capacity>&)
+        consteval explicit ContainerOp_GetCapacity(const std::array<T, Capacity>&)
         {
         }
 
@@ -23,7 +23,7 @@ namespace CppUtils
 
 
     template <class T, std::size_t Capacity>
-    struct ContainerPolicy_GetSize<std::array<T, Capacity>>
+    struct ContainerOp_GetSize<std::array<T, Capacity>>
     {
         static consteval std::size_t Do(const std::array<T, Capacity>&)
         {
@@ -39,7 +39,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ContainerPolicy_IsValidIndex<std::array<T, Capacity>>
+    struct ContainerOp_IsValidIndex<std::array<T, Capacity>>
     {
         static consteval bool Do(const std::array<T, Capacity>&, const std::size_t index)
         {
@@ -58,7 +58,7 @@ namespace CppUtils
     
 
     template <class T, std::size_t Capacity>
-    struct ContainerPolicy_IsEmpty<std::array<T, Capacity>>
+    struct ContainerOp_IsEmpty<std::array<T, Capacity>>
     {
         static consteval bool Do(const std::array<T, Capacity>&)
         {
@@ -75,7 +75,7 @@ namespace CppUtils
     
 
     template <class T, std::size_t Capacity>
-    struct ContainerPolicy_GetFront<std::array<T, Capacity>>
+    struct ContainerOp_GetFront<std::array<T, Capacity>>
     {
         static constexpr const T& Do(const std::array<T, Capacity>& arr)
         {
@@ -99,7 +99,7 @@ namespace CppUtils
     
     
     template <class T, std::size_t Capacity>
-    struct ContainerPolicy_GetBack<std::array<T, Capacity>>
+    struct ContainerOp_GetBack<std::array<T, Capacity>>
     {
         static constexpr const T& Do(const std::array<T, Capacity>& arr)
         {
@@ -122,14 +122,14 @@ namespace CppUtils
     
     
     template <class T, class ElementType, std::size_t Capacity>
-    struct ContainerPolicy_GetElement<T, std::array<ElementType, Capacity>>
+    struct ContainerOp_GetElement<T, std::array<ElementType, Capacity>>
     {
-        constexpr explicit ContainerPolicy_GetElement(const std::array<ElementType, Capacity>& arr)
+        constexpr explicit ContainerOp_GetElement(const std::array<ElementType, Capacity>& arr)
             : Arr(arr)
         {
         }
 
-        constexpr explicit ContainerPolicy_GetElement(std::array<ElementType, Capacity>& arr)
+        constexpr explicit ContainerOp_GetElement(std::array<ElementType, Capacity>& arr)
             : Arr(arr)
         {
         }

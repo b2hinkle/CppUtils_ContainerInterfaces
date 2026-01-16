@@ -3,23 +3,23 @@
 #pragma once
 
 #include <type_traits>
-#include <CppUtils_ContainerInterfaces/ContainerPolicyUtils.h>
+#include <CppUtils_ContainerInterfaces/ContainerOpUtils.h>
 #include <CppUtils_Misc/FunctionTraits.h>
 
 namespace CppUtils
 {
     /*
-    * Base class for container policy interfaces. Responsible for the shared needs of all container policy interfaces to keep code consolidated.
+    * Base class for container op interfaces. Responsible for the shared needs of all container op interfaces to keep code consolidated.
     * TODO: Enforce that implementation's ctr takes in reference to container type.
     */
-    template <template<class> class TContainerPolicy, class T>
-    struct ContainerPolicyInterface_Base
+    template <template<class> class TContainerOp, class T>
+    struct ContainerOpInterface_Base
     {
-        // Removes cv and ref qualifiers for compatability with the container policy specializations.
+        // Removes cv and ref qualifiers for compatability with the container op specializations.
         using NeuteredT = std::remove_cvref_t<T>;
 
         // Our implementer which conforms to this interface.
-        using Doer = TContainerPolicy<NeuteredT>;
+        using Doer = TContainerOp<NeuteredT>;
     };
 
     template <class Doer>
@@ -35,10 +35,10 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ContainerPolicyInterface_GetCapacity :
-        ContainerPolicy_GetCapacity<std::remove_cvref_t<T>>
+    struct ContainerOpInterface_GetCapacity :
+        ContainerOp_GetCapacity<std::remove_cvref_t<T>>
     {
-        using Base = ContainerPolicy_GetCapacity<std::remove_cvref_t<T>>;
+        using Base = ContainerOp_GetCapacity<std::remove_cvref_t<T>>;
         using Base::Base; // Inherit ctr(s) from our implementer.
         
 
@@ -47,22 +47,22 @@ namespace CppUtils
 
     // Deduction guide for more convenient user api.
     template <class T>
-    ContainerPolicyInterface_GetCapacity(T&)
-        -> ContainerPolicyInterface_GetCapacity<T&>;
+    ContainerOpInterface_GetCapacity(T&)
+        -> ContainerOpInterface_GetCapacity<T&>;
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerPolicyInterface_GetCapacity(const T (&)[Capacity])
-        -> ContainerPolicyInterface_GetCapacity<const T (&)[Capacity]>;
+    ContainerOpInterface_GetCapacity(const T (&)[Capacity])
+        -> ContainerOpInterface_GetCapacity<const T (&)[Capacity]>;
 
     /*
     *
     */
     template <class T>
-    struct ContainerPolicyInterface_GetSize
-        : ContainerPolicyInterface_Base<ContainerPolicy_GetSize, T>
+    struct ContainerOpInterface_GetSize
+        : ContainerOpInterface_Base<ContainerOp_GetSize, T>
     {
-        using TBase = ContainerPolicyInterface_Base<ContainerPolicy_GetSize, T>;
+        using TBase = ContainerOpInterface_Base<ContainerOp_GetSize, T>;
         using typename TBase::Doer;
         using typename TBase::NeuteredT;
 
@@ -70,20 +70,20 @@ namespace CppUtils
     };
 
     /*
-    * TODO: I've started on some static assertions for this interface. We need to both finish this one, and make enforcements for the rest of the policies.
+    * TODO: I've started on some static assertions for this interface. We need to both finish this one, and make enforcements for the rest of the ops.
     */
     template <class T>
-    struct ContainerPolicyInterface_IsValidIndex
-        : ContainerPolicyInterface_Base<ContainerPolicy_IsValidIndex, T>
+    struct ContainerOpInterface_IsValidIndex
+        : ContainerOpInterface_Base<ContainerOp_IsValidIndex, T>
     {
-        using TBase = ContainerPolicyInterface_Base<ContainerPolicy_IsValidIndex, T>;
+        using TBase = ContainerOpInterface_Base<ContainerOp_IsValidIndex, T>;
         using typename TBase::Doer;
         using typename TBase::NeuteredT;
 
         static_assert
         (
             requires { typename DoFunctionTraitsForDoer<Doer>; },
-            "Container policy must have a Do callable."
+            "Container op must have a Do callable."
         );
         using DoFunctionTraits = DoFunctionTraitsForDoer<Doer>;
 
@@ -102,17 +102,17 @@ namespace CppUtils
         using TFirstParam  = std::tuple_element_t<0, typename DoFunctionTraits::ArgsTuple>;
         using TSecondParam = std::tuple_element_t<1, typename DoFunctionTraits::ArgsTuple>;
         
-        //static_assert(sizeof(T) && std::is_invocable_v<decltype(Doer::Do), const NeuteredT&, IndexType>, "Policy specialization must have a callable Do function with correct parameters.");
+        //static_assert(sizeof(T) && std::is_invocable_v<decltype(Doer::Do), const NeuteredT&, IndexType>, "Op specialization must have a callable Do function with correct parameters.");
     };
     
     /*
     *
     */
     template <class T>
-    struct ContainerPolicyInterface_IsEmpty
-        : ContainerPolicyInterface_Base<ContainerPolicy_IsEmpty, T>
+    struct ContainerOpInterface_IsEmpty
+        : ContainerOpInterface_Base<ContainerOp_IsEmpty, T>
     {
-        using TBase = ContainerPolicyInterface_Base<ContainerPolicy_IsEmpty, T>;
+        using TBase = ContainerOpInterface_Base<ContainerOp_IsEmpty, T>;
         using typename TBase::Doer;
         using typename TBase::NeuteredT;
 
@@ -123,10 +123,10 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ContainerPolicyInterface_GetFront
-        : ContainerPolicyInterface_Base<ContainerPolicy_GetFront, T>
+    struct ContainerOpInterface_GetFront
+        : ContainerOpInterface_Base<ContainerOp_GetFront, T>
     {
-        using TBase = ContainerPolicyInterface_Base<ContainerPolicy_GetFront, T>;
+        using TBase = ContainerOpInterface_Base<ContainerOp_GetFront, T>;
         using typename TBase::Doer;
         using typename TBase::NeuteredT;
 
@@ -137,10 +137,10 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ContainerPolicyInterface_GetBack
-        : ContainerPolicyInterface_Base<ContainerPolicy_GetBack, T>
+    struct ContainerOpInterface_GetBack
+        : ContainerOpInterface_Base<ContainerOp_GetBack, T>
     {
-        using TBase = ContainerPolicyInterface_Base<ContainerPolicy_GetBack, T>;
+        using TBase = ContainerOpInterface_Base<ContainerOp_GetBack, T>;
         using typename TBase::Doer;
         using typename TBase::NeuteredT;
 
@@ -151,10 +151,10 @@ namespace CppUtils
     *
     */
     template <class T>
-    struct ContainerPolicyInterface_GetElement
-        : ContainerPolicy_GetElement<T, std::remove_cvref_t<T>>
+    struct ContainerOpInterface_GetElement
+        : ContainerOp_GetElement<T, std::remove_cvref_t<T>>
     {        
-        using Base = ContainerPolicy_GetElement<T, std::remove_cvref_t<T>>;
+        using Base = ContainerOp_GetElement<T, std::remove_cvref_t<T>>;
         using Base::Base; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
@@ -162,15 +162,15 @@ namespace CppUtils
 
     // Deduction guide for more convenient user api.
     template <class T>
-    ContainerPolicyInterface_GetElement(T&)
-        -> ContainerPolicyInterface_GetElement<T&>;
+    ContainerOpInterface_GetElement(T&)
+        -> ContainerOpInterface_GetElement<T&>;
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerPolicyInterface_GetElement(const T (&)[Capacity])
-        -> ContainerPolicyInterface_GetElement<const T (&)[Capacity]>;
+    ContainerOpInterface_GetElement(const T (&)[Capacity])
+        -> ContainerOpInterface_GetElement<const T (&)[Capacity]>;
 
     template <class T, std::size_t Capacity>
-    ContainerPolicyInterface_GetElement(T (&)[Capacity])
-        -> ContainerPolicyInterface_GetElement<T (&)[Capacity]>;
+    ContainerOpInterface_GetElement(T (&)[Capacity])
+        -> ContainerOpInterface_GetElement<T (&)[Capacity]>;
 }

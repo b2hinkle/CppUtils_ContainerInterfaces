@@ -1,8 +1,8 @@
 // Copyright (c) 2023-2025 Christian Hinkle, Brian Hinkle.
 
 #include <CppUtils_ContainerInterfaces/ContainerOps.h>
-#include <CppUtils_ContainerInterfaces/SpecializedContainerPolicies/SpecializedContainerPolicies_RawArray.h>
-#include <CppUtils_ContainerInterfaces/SpecializedContainerPolicies/SpecializedContainerPolicies_StdArray.h>
+#include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_RawArray.h>
+#include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_StdArray.h>
 
 int main(int argc, char** argv)
 {

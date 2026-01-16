@@ -87,12 +87,12 @@ target_sources(${MY_BASE_PROJECT_NAME_FULL}_Include
       FILES
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}_Export.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}_include_export.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerPolicies_PrimaryTemplate.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerPolicyInterfaces.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerPolicyUtils.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOps_PrimaryTemplate.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaces.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOpUtils.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOps.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerPolicies/SpecializedContainerPolicies_RawArray.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerPolicies/SpecializedContainerPolicies_StdArray.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_RawArray.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_StdArray.h"
   )
 
 # Note that we do not "find package" for our parent project. We don't need to since we are built in the same

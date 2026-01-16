@@ -98,12 +98,12 @@ block(SCOPE_FOR VARIABLES)
   # List of all source files (relative to our "Source" directory).
   set(MyTargetSources
     "${MY_BASE_PROJECT_NAME_FULL}_Export.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/ContainerPolicies_PrimaryTemplate.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/ContainerPolicyInterfaces.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerOps_PrimaryTemplate.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaces.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/ContainerOps.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/ContainerPolicyUtils.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerPolicies/SpecializedContainerPolicies_RawArray.cpp"
-    "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerPolicies/SpecializedContainerPolicies_StdArray.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerOpUtils.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_RawArray.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_StdArray.cpp"
     )
 
   # Add source file paths for `BUILD_LOCAL_INTERFACE` users.
