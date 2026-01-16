@@ -3,6 +3,7 @@
 #pragma once
 
 #include <array>
+#include <CppUtils_Misc/TypeTraits.h>
 #include <CppUtils_ContainerInterfaces/ContainerPolicies_PrimaryTemplate.h>
 
 namespace CppUtils
@@ -10,12 +11,11 @@ namespace CppUtils
     template <class T, std::size_t Capacity>
     struct ContainerPolicy_GetCapacity<std::array<T, Capacity>>
     {
-        consteval ContainerPolicy_GetCapacity(const std::array<T, Capacity>&)
-            : Value(Capacity)
+        consteval explicit ContainerPolicy_GetCapacity(const std::array<T, Capacity>&)
         {
         }
 
-        const std::size_t Value{};
+        consteval std::size_t Do() { return Capacity; }
     };
 
 
@@ -121,17 +121,33 @@ namespace CppUtils
     
     
     
-    template <class T, std::size_t Capacity>
-    struct ContainerPolicy_GetElement<std::array<T, Capacity>>
+    template <class T, class ElementType, std::size_t Capacity>
+    struct ContainerPolicy_GetElement<T, std::array<ElementType, Capacity>>
     {
-        static constexpr const T& Do(const std::array<T, Capacity>& arr, const std::size_t index)
+        constexpr explicit ContainerPolicy_GetElement(const std::array<ElementType, Capacity>& arr)
+            : Arr(arr)
         {
-            return arr[index];
         }
 
-        static constexpr T& Do(std::array<T, Capacity>& arr, const std::size_t index)
+        constexpr explicit ContainerPolicy_GetElement(std::array<ElementType, Capacity>& arr)
+            : Arr(arr)
         {
-            return arr[index];
         }
+
+        constexpr const ElementType& Do(const std::size_t index) const
+            requires (IsConstAfterRemovingRef<T>())
+        {
+            return Arr[index];
+        }
+
+        constexpr ElementType& Do(const std::size_t index) const
+            requires (!IsConstAfterRemovingRef<T>())
+        {
+            return Arr[index];
+        }
+        
+private:
+
+        T Arr {};
     };    
 }

@@ -9,9 +9,9 @@ int main(int argc, char** argv)
     {
         bool isSuccess = true;
         
-        constexpr int rawArr[] = { 0, 1, 2 };
+        int rawArr[] = { 0, 1, 2 };
         
-        constexpr std::size_t capacity = CppUtils::ContainerPolicyInterface_GetCapacity(rawArr).Value;
+        constexpr std::size_t capacity = CppUtils::ContainerOps::GetCapacity(rawArr).Do();
         constexpr int size = CppUtils::ContainerOps::GetSize<decltype(rawArr)>::Do(rawArr);
         if (size != capacity) // Constant size arrays have same size and capacity.
         {
@@ -25,19 +25,19 @@ int main(int argc, char** argv)
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement1 = CppUtils::ContainerOps::GetElement(rawArr, 0);
+        int& gottenRawArrElement1 = CppUtils::ContainerOps::GetElement(rawArr).Do(0);
         if (gottenRawArrElement1 != 0)
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement2 = CppUtils::ContainerOps::GetElement(rawArr, 1);
+        const int& gottenRawArrElement2 = CppUtils::ContainerOps::GetElement(rawArr).Do(1);
         if (gottenRawArrElement2 != 1)
         {
             isSuccess = false;
         }
 
-        const int& gottenRawArrElement3 = CppUtils::ContainerOps::GetElement(rawArr, 2);
+        const int& gottenRawArrElement3 = CppUtils::ContainerOps::GetElement(rawArr).Do(2);
         if (gottenRawArrElement3 != 2)
         {
             isSuccess = false;
@@ -51,10 +51,14 @@ int main(int argc, char** argv)
 
         using neuteredT = std::remove_cvref_t<decltype(stdArr)>;
 
-        const std::size_t capacity = CppUtils::ContainerPolicyInterface_GetCapacity(stdArr).Value;
+        const std::size_t capacity = CppUtils::ContainerOps::GetCapacity(stdArr).Do();
         constexpr int front = CppUtils::ContainerOps::GetFront(stdArr);
         constexpr int back = CppUtils::ContainerOps::GetBack(stdArr);
-        const int& gottenStdArrElement = CppUtils::ContainerOps::GetElement(stdArr, 1);
+        const int& gottenStdArrElement = CppUtils::ContainerOps::GetElement(stdArr).Do(1);
+
+        
+        const std::array<int, 3> constArr = { 0, 1, 2 };
+        const int& constEl = CppUtils::ContainerOps::GetElement(constArr).Do(1);
 
         const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex(stdArr, 1);
 
@@ -72,9 +76,10 @@ int main(int argc, char** argv)
 
     {
         static const std::array<int, 3> stdArr = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::ContainerOps::GetCapacity(stdArr).Value;
-        constexpr int rawArr[] = { 0, 1, 2 };
-        constexpr int gottenStdArrElement = CppUtils::ContainerOps::GetElement(rawArr, 1);
+        constexpr int capacity = CppUtils::ContainerOps::GetCapacity(stdArr).Do();
+
+        int rawArr[] = { 0, 1, 2 };
+        const int& gottenStdArrElement = CppUtils::ContainerOps::GetElement(rawArr).Do(1);
 
     }
 }
