@@ -9,13 +9,19 @@
 namespace CppUtils
 {
     /*
-    * Base class for container op interfaces. Responsible for the shared needs of all container op interfaces to keep code consolidated.
+    * Base level interface for container ops. Container op interfaces must derive from this base for base level enforcements, as well as the container op itself.
     * TODO: Enforce that implementation's ctr takes in reference to container type.
     */
-    template <template<class> class TContainerOp, class T>
+    template <template<class> class ContainerOp_Generic, class T>
     struct ContainerOpInterfaceBase
+        : ContainerOp_Generic<T>
     {
-        
+        using Op = ContainerOp_Generic<T>;
+    protected: // Protected ctrs to keep this type abstract. Only non-base interfaces can be instantiated.
+        using Op::Op;
+
+        static_assert(std::is_lvalue_reference_v<T>, "Interfaces require that the container type is an lvalue reference." );
+        //static_assert(std::is_constructible_v<T>, ".");
     };
 }
 
@@ -29,14 +35,16 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetCapacity
-        : ContainerOp_GetCapacity<T>
+        : ContainerOpInterfaceBase<ContainerOp_GetCapacity, T>
     {
-        using Op = ContainerOp_GetCapacity<T>;
-        using Op::Op; // Inherit ctr(s) from our implementer.
+        using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetCapacity, T>;
+        using InterfaceBase::InterfaceBase;
 
+        using Op = ContainerOp_GetCapacity<T>;
+        
         static_assert
         (
-            requires(Op& op)
+            requires(Op op)
             {
                 { op.Do() } -> std::integral;
             },
@@ -59,14 +67,16 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetSize
-        : ContainerOp_GetSize<T>
+        : ContainerOpInterfaceBase<ContainerOp_GetSize, T>
     {
+        using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetSize, T>;
+        using InterfaceBase::InterfaceBase;
+
         using Op = ContainerOp_GetSize<T>;
-        using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
         (
-            requires(Op& op)
+            requires(Op op)
             {
                 { op.Do() } -> std::integral;
             },
@@ -89,14 +99,16 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_IsValidIndex
-        : ContainerOp_IsValidIndex<T>
+        : ContainerOpInterfaceBase<ContainerOp_IsValidIndex, T>
     {
+        using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_IsValidIndex, T>;
+        using InterfaceBase::InterfaceBase;
+
         using Op = ContainerOp_IsValidIndex<T>;
-        using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
         (
-            requires(Op& op)
+            requires(Op op)
             {
                 { op.Do(int{}) } -> std::same_as<bool>;
             },
@@ -119,14 +131,16 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_IsEmpty
-        : ContainerOp_IsEmpty<T>
+        : ContainerOpInterfaceBase<ContainerOp_IsEmpty, T>
     {
+        using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_IsEmpty, T>;
+        using InterfaceBase::InterfaceBase;
+
         using Op = ContainerOp_IsEmpty<T>;
-        using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
         (
-            requires(Op& op)
+            requires(Op op)
             {
                 { op.Do() } -> std::same_as<bool>;
             },
@@ -149,15 +163,17 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetFront
-        : ContainerOp_GetFront<T>
+        : ContainerOpInterfaceBase<ContainerOp_GetFront, T>
     {
+        using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetFront, T>;
+        using InterfaceBase::InterfaceBase;
+
         using Op = ContainerOp_GetFront<T>;
-        using Op::Op; // Inherit ctr(s) from our implementer.
 
 #if 0
         static_assert
         (
-            requires(Op& op)
+            requires(Op op)
             {
                 { op.Do() } -> std::same_as<typename T::value_type>; // TODO: Require correct return type.
             },
@@ -185,10 +201,12 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetBack
-        : ContainerOp_GetBack<T>
+        : ContainerOpInterfaceBase<ContainerOp_GetBack, T>
     {
+        using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetBack, T>;
+        using InterfaceBase::InterfaceBase;
+
         using Op = ContainerOp_GetBack<T>;
-        using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
@@ -212,10 +230,12 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetElement
-        : ContainerOp_GetElement<T>
-    {        
+        : ContainerOpInterfaceBase<ContainerOp_GetElement, T>
+    {
+        using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetElement, T>;
+        using InterfaceBase::InterfaceBase;
+
         using Op = ContainerOp_GetElement<T>;
-        using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
