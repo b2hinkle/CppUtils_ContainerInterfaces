@@ -40,7 +40,9 @@ namespace CppUtils
     template <class T, class UnqualifiedT = StripQualifiers<T>>
     struct ContainerOp_GetBack;
     
-    // TODO: I believe we want this to be a better name, possibly use the term subscript. Reason is because we might have an At op that does bounds checking.
+    /*
+    * Accesses element at index, no bounds checking (e.g. subscript behavior on an array).
+    */
     template <class T, class UnqualifiedT = StripQualifiers<T>>
     struct ContainerOp_GetElement;
 
