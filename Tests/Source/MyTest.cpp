@@ -49,8 +49,6 @@ int main(int argc, char** argv)
 
         constexpr std::array<int, 3> stdArr = { 0, 1, 2 };
 
-        using neuteredT = std::remove_cvref_t<decltype(stdArr)>;
-
         const std::size_t capacity = CppUtils::ContainerOps::GetCapacity(stdArr).Do();
         constexpr int front = CppUtils::ContainerOps::GetFront(stdArr).Do();
         constexpr int back = CppUtils::ContainerOps::GetBack(stdArr).Do();

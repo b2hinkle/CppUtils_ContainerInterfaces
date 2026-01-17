@@ -29,9 +29,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetCapacity
-        : ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>
+        : ContainerOp_GetCapacity<T>
     {
-        using Op = ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>;
+        using Op = ContainerOp_GetCapacity<T>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
@@ -59,9 +59,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetSize
-        : ContainerOp_GetSize<T, std::remove_cvref_t<T>>
+        : ContainerOp_GetSize<T>
     {
-        using Op = ContainerOp_GetSize<T, std::remove_cvref_t<T>>;
+        using Op = ContainerOp_GetSize<T>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
@@ -89,9 +89,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_IsValidIndex
-        : ContainerOp_IsValidIndex<T, std::remove_cvref_t<T>>
+        : ContainerOp_IsValidIndex<T>
     {
-        using Op = ContainerOp_IsValidIndex<T, std::remove_cvref_t<T>>;
+        using Op = ContainerOp_IsValidIndex<T>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
@@ -119,9 +119,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_IsEmpty
-        : ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>
+        : ContainerOp_IsEmpty<T>
     {
-        using Op = ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>;
+        using Op = ContainerOp_IsEmpty<T>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
         static_assert
@@ -149,9 +149,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetFront
-        : ContainerOp_GetFront<T, std::remove_cvref_t<T>>
+        : ContainerOp_GetFront<T>
     {
-        using Op = ContainerOp_GetFront<T, std::remove_cvref_t<T>>;
+        using Op = ContainerOp_GetFront<T>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
 #if 0
@@ -185,9 +185,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetBack
-        : ContainerOp_GetBack<T, std::remove_cvref_t<T>>
+        : ContainerOp_GetBack<T>
     {
-        using Op = ContainerOp_GetBack<T, std::remove_cvref_t<T>>;
+        using Op = ContainerOp_GetBack<T>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
@@ -212,9 +212,9 @@ namespace CppUtils
     */
     template <class T>
     struct ContainerOpInterface_GetElement
-        : ContainerOp_GetElement<T, std::remove_cvref_t<T>>
+        : ContainerOp_GetElement<T>
     {        
-        using Op = ContainerOp_GetElement<T, std::remove_cvref_t<T>>;
+        using Op = ContainerOp_GetElement<T>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
