@@ -13,13 +13,9 @@ namespace CppUtils
     * TODO: Enforce that implementation's ctr takes in reference to container type.
     */
     template <template<class> class TContainerOp, class T>
-    struct ContainerOpInterface_Base
+    struct ContainerOpInterfaceBase
     {
-        // Removes cv and ref qualifiers for compatability with the container op specializations.
-        using NeuteredT = std::remove_cvref_t<T>;
-
-        // Our implementer which conforms to this interface.
-        using Doer = TContainerOp<NeuteredT>;
+        
     };
 }
 
@@ -37,9 +33,15 @@ namespace CppUtils
     {
         using Op = ContainerOp_GetCapacity<T, std::remove_cvref_t<T>>;
         using Op::Op; // Inherit ctr(s) from our implementer.
-        
 
-        //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
+        static_assert
+        (
+            requires(Op& op)
+            {
+                { op.Do() } -> std::integral;
+            },
+            "Op must have `Do` function with no parameters and integral return type."
+        );
     };
 
     // Deduction guide for more convenient user api.
@@ -61,9 +63,15 @@ namespace CppUtils
     {
         using Op = ContainerOp_GetSize<T, std::remove_cvref_t<T>>;
         using Op::Op; // Inherit ctr(s) from our implementer.
-        
 
-        //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
+        static_assert
+        (
+            requires(Op& op)
+            {
+                { op.Do() } -> std::integral;
+            },
+            "Op must have `Do` function with no parameters and integral return type."
+        );
     };
 
     // Deduction guide for more convenient user api.
@@ -88,11 +96,11 @@ namespace CppUtils
 
         static_assert
         (
-            requires(Op& IsValidIndexOp)
+            requires(Op& op)
             {
-                { IsValidIndexOp.Do(1) } -> std::same_as<bool>;
+                { op.Do(int{}) } -> std::same_as<bool>;
             },
-            "Container op must have Do function with an index parameter and bool return type."
+            "Op must have `Do` function with an index parameter and bool return type."
         );
     };
 
@@ -116,7 +124,14 @@ namespace CppUtils
         using Op = ContainerOp_IsEmpty<T, std::remove_cvref_t<T>>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
-        //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
+        static_assert
+        (
+            requires(Op& op)
+            {
+                { op.Do() } -> std::same_as<bool>;
+            },
+            "Op must have `Do` function with no parameters and bool return type."
+        );
     };
 
     // Deduction guide for more convenient user api.
@@ -139,7 +154,16 @@ namespace CppUtils
         using Op = ContainerOp_GetFront<T, std::remove_cvref_t<T>>;
         using Op::Op; // Inherit ctr(s) from our implementer.
 
-        //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
+#if 0
+        static_assert
+        (
+            requires(Op& op)
+            {
+                { op.Do() } -> std::same_as<typename T::value_type>; // TODO: Require correct return type.
+            },
+            "Op must have `Do` function with no parameters and element return type."
+        );
+#endif
     };
 
     // Deduction guide for more convenient user api.
