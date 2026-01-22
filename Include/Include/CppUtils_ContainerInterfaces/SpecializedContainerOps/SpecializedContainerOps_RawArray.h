@@ -11,11 +11,14 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetCapacity<T, ElementType[Capacity]>
     {
-        consteval explicit ContainerOp_GetCapacity(const ElementType (&)[Capacity])
+        constexpr explicit ContainerOp_GetCapacity(const ElementType (&)[Capacity])
+            requires (std::is_constant_evaluated())
         {
         }
 
-        consteval std::size_t Do() const { return Capacity; }
+        constexpr std::size_t Do() const
+            requires (std::is_constant_evaluated())
+        { return Capacity; }
     };
 
 
@@ -29,11 +32,14 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetSize<T, ElementType[Capacity]>
     {
-        consteval explicit ContainerOp_GetSize(const ElementType (&)[Capacity])
+        constexpr explicit ContainerOp_GetSize(const ElementType (&)[Capacity])
+            requires (std::is_constant_evaluated())
         {
         }
 
-        consteval std::size_t Do() const { return Capacity; }
+        constexpr std::size_t Do() const
+            requires (std::is_constant_evaluated())
+        { return Capacity; }
     };
     
 
@@ -44,11 +50,13 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsValidIndex<T, ElementType[Capacity]>
     {
-        consteval explicit ContainerOp_IsValidIndex(const ElementType (&)[Capacity])
+        constexpr explicit ContainerOp_IsValidIndex(const ElementType (&)[Capacity])
+            requires (std::is_constant_evaluated())
         {
         }
 
-        consteval bool Do(const std::size_t index) const
+        constexpr bool Do(const std::size_t index) const
+            requires (std::is_constant_evaluated())
         {
             return index >= 0
                 && index < Capacity;
@@ -66,12 +74,14 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsEmpty<T, ElementType[Capacity]>
     {
-        consteval explicit ContainerOp_IsEmpty(const ElementType (&)[Capacity])
+        constexpr explicit ContainerOp_IsEmpty(const ElementType (&)[Capacity])
+            requires (std::is_constant_evaluated())
         {
 
         }
 
-        consteval bool Do()
+        constexpr bool Do() const
+            requires (std::is_constant_evaluated())
         {
             // NOTE: It is not possible for raw arrays to exist with no size/capacity.
             return false;

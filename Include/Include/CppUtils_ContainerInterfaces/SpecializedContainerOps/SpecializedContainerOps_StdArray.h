@@ -11,11 +11,14 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetCapacity<T, std::array<ElementType, Capacity>>
     {
-        consteval explicit ContainerOp_GetCapacity(const std::array<ElementType, Capacity>&)
+        constexpr explicit ContainerOp_GetCapacity(const std::array<ElementType, Capacity>&)
+            requires (std::is_constant_evaluated()) // TODO: Make sense of how this achieves both necessities.
         {
         }
 
-        consteval std::size_t Do() const { return Capacity; }
+        constexpr std::size_t Do() const
+            requires (std::is_constant_evaluated())
+        { return Capacity; }
     };
 
 
@@ -25,11 +28,14 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetSize<T, std::array<ElementType, Capacity>>
     {
-        consteval explicit ContainerOp_GetSize(const std::array<ElementType, Capacity>&)
+        constexpr explicit ContainerOp_GetSize(const std::array<ElementType, Capacity>&)
+            requires (std::is_constant_evaluated())
         {
         }
 
-        consteval std::size_t Do() const { return Capacity; }
+        constexpr std::size_t Do() const
+            requires (std::is_constant_evaluated())
+        { return Capacity; }
     };
     
 
@@ -42,11 +48,13 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsValidIndex<T, std::array<ElementType, Capacity>>
     {
-        consteval explicit ContainerOp_IsValidIndex(const std::array<ElementType, Capacity>&)
+        constexpr explicit ContainerOp_IsValidIndex(const std::array<ElementType, Capacity>&)
+            requires (std::is_constant_evaluated())
         {
         }
 
-        consteval bool Do(const std::size_t index) const
+        constexpr bool Do(const std::size_t index) const
+            requires (std::is_constant_evaluated())
         {
             return index >= 0
                 && index < Capacity;
@@ -65,11 +73,13 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsEmpty<T, std::array<ElementType, Capacity>>
     {
-        consteval explicit ContainerOp_IsEmpty(const std::array<ElementType, Capacity>&)
+        constexpr explicit ContainerOp_IsEmpty(const std::array<ElementType, Capacity>&)
+            requires (std::is_constant_evaluated())
         {
         }
 
-        consteval bool Do()
+        constexpr bool Do() const
+            requires (std::is_constant_evaluated())
         {
             return Capacity == 0;
         }
