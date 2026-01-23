@@ -21,7 +21,16 @@ namespace CppUtils
         using Op::Op;
 
         static_assert(std::is_lvalue_reference_v<T>, "Interfaces require that the container type is an lvalue reference." );
-        //static_assert(std::is_constructible_v<T>, ".");
+        //static_assert(std::is_constructible_v<T>, "."); // TODO
+
+        static_assert( requires{ typename FunctionPtrTraits<&Op::Do>; }, "Operation specialization must contain a `Do` function." );
+        using DoFuncTraits = FunctionPtrTraits<&Op::Do>;
+
+        static_assert
+        (
+            !std::is_same_v<void, typename DoFuncTraits::ClassType>, 
+            "Operation specialization's `Do` function must be non-static for api consistency." 
+        );
     };
 }
 
@@ -40,15 +49,18 @@ namespace CppUtils
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetCapacity, T>;
         using InterfaceBase::InterfaceBase;
 
-        using Op = ContainerOp_GetCapacity<T>;
-        
+        using DoFuncTraits = InterfaceBase::DoFuncTraits;
+
         static_assert
         (
-            requires(Op op)
-            {
-                { op.Do() } -> std::integral;
-            },
-            "Op must have `Do` function with no parameters and integral return type."
+            std::is_integral_v<typename DoFuncTraits::ReturnType>,
+            "GetCapacity op's `Do` function must return an integral type."
+        );
+
+        static_assert
+        (
+            DoFuncTraits::GetArgsCount() == 0,
+            "GetCapacity op's `Do` function must take no parameters."
         );
     };
 
@@ -71,16 +83,19 @@ namespace CppUtils
     {
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetSize, T>;
         using InterfaceBase::InterfaceBase;
-
-        using Op = ContainerOp_GetSize<T>;
+        
+        using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
         static_assert
         (
-            requires(Op op)
-            {
-                { op.Do() } -> std::integral;
-            },
-            "Op must have `Do` function with no parameters and integral return type."
+            std::is_integral_v<typename DoFuncTraits::ReturnType>,
+            "GetSize op's `Do` function must return an integral type."
+        );
+
+        static_assert
+        (
+            DoFuncTraits::GetArgsCount() == 0,
+            "GetSize op's `Do` function must take no parameters."
         );
     };
 
@@ -103,16 +118,26 @@ namespace CppUtils
     {
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_IsValidIndex, T>;
         using InterfaceBase::InterfaceBase;
-
-        using Op = ContainerOp_IsValidIndex<T>;
+        
+        using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
         static_assert
         (
-            requires(Op op)
-            {
-                { op.Do(int{}) } -> std::same_as<bool>;
-            },
-            "Op must have `Do` function with an index parameter and bool return type."
+            std::is_same_v<bool, typename DoFuncTraits::ReturnType>,
+            "IsValidIndex op's `Do` function must return a boolean."
+        );
+
+        static_assert
+        (
+            DoFuncTraits::GetArgsCount() == 1,
+            "IsValidIndex op's `Do` function must take exactly one parameter."
+        );
+        using FirstParam = std::tuple_element_t<0, typename DoFuncTraits::ArgsTuple>;
+
+        static_assert
+        (
+            std::is_integral_v<FirstParam>,
+            "IsValidIndex op's `Do` function must take in an integral parameter for the index."
         );
     };
 
@@ -135,16 +160,19 @@ namespace CppUtils
     {
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_IsEmpty, T>;
         using InterfaceBase::InterfaceBase;
-
-        using Op = ContainerOp_IsEmpty<T>;
+        
+        using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
         static_assert
         (
-            requires(Op op)
-            {
-                { op.Do() } -> std::same_as<bool>;
-            },
-            "Op must have `Do` function with no parameters and bool return type."
+            std::is_same_v<bool, typename DoFuncTraits::ReturnType>,
+            "IsEmpty op's `Do` function must return a boolean."
+        );
+
+        static_assert
+        (
+            DoFuncTraits::GetArgsCount() == 0,
+            "IsEmpty op's `Do` function must take no parameters."
         );
     };
 
@@ -167,8 +195,8 @@ namespace CppUtils
     {
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetFront, T>;
         using InterfaceBase::InterfaceBase;
-
-        using Op = ContainerOp_GetFront<T>;
+        
+        using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
 #if 0
         static_assert
