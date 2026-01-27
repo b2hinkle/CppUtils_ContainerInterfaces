@@ -12,12 +12,10 @@ namespace CppUtils
     struct ContainerOp_GetCapacity<T, std::array<ElementType, Capacity>>
     {
         constexpr explicit ContainerOp_GetCapacity(const std::array<ElementType, Capacity>&)
-            requires (std::is_constant_evaluated()) // TODO: Make sense of how this achieves both necessities.
         {
         }
 
         constexpr std::size_t Do() const
-            requires (std::is_constant_evaluated())
         { return Capacity; }
     };
 
@@ -29,12 +27,10 @@ namespace CppUtils
     struct ContainerOp_GetSize<T, std::array<ElementType, Capacity>>
     {
         constexpr explicit ContainerOp_GetSize(const std::array<ElementType, Capacity>&)
-            requires (std::is_constant_evaluated())
         {
         }
 
         constexpr std::size_t Do() const
-            requires (std::is_constant_evaluated())
         { return Capacity; }
     };
     
@@ -49,12 +45,10 @@ namespace CppUtils
     struct ContainerOp_IsValidIndex<T, std::array<ElementType, Capacity>>
     {
         constexpr explicit ContainerOp_IsValidIndex(const std::array<ElementType, Capacity>&)
-            requires (std::is_constant_evaluated())
         {
         }
 
         constexpr bool Do(const std::size_t index) const
-            requires (std::is_constant_evaluated())
         {
             return index >= 0
                 && index < Capacity;
@@ -74,12 +68,10 @@ namespace CppUtils
     struct ContainerOp_IsEmpty<T, std::array<ElementType, Capacity>>
     {
         constexpr explicit ContainerOp_IsEmpty(const std::array<ElementType, Capacity>&)
-            requires (std::is_constant_evaluated())
         {
         }
 
         constexpr bool Do() const
-            requires (std::is_constant_evaluated())
         {
             return Capacity == 0;
         }
