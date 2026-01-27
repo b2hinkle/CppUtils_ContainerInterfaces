@@ -10,7 +10,6 @@ namespace CppUtils
 {
     /*
     * Base level interface for container ops. Container op interfaces must derive from this base for base level enforcements, as well as the container op itself.
-    * TODO: Enforce that implementation's ctr takes in reference to container type.
     */
     template <template<class> class ContainerOp_Generic, class T>
     struct ContainerOpInterfaceBase
@@ -21,16 +20,23 @@ namespace CppUtils
         using Op::Op;
 
         static_assert(std::is_lvalue_reference_v<T>, "Interfaces require that the container type is an lvalue reference." );
-        //static_assert(std::is_constructible_v<T>, "."); // TODO
 
-        static_assert( requires{ typename FunctionPtrTraits<&Op::Do>; }, "Operation specialization must contain a `Do` function." );
-        using DoFuncTraits = FunctionPtrTraits<&Op::Do>;
+        // NOTE: As of now, this is all we can do for static enforcements on the operation specializations' constructor. We don't get as much power as with function traits since constructors aren't
+        //       addressable and don't have a type. We will enforce what we can here. Cpp 26 could potentially help with this due to compile time reflection.
+        static_assert(std::is_constructible_v<Op, T>,       "Constructor of operation specialization must accept the container type in order to allow for the class template argument deduction.");
+        static_assert(!std::is_default_constructible_v<Op>, "Constructor of operation specialization can't take in nothing, otherwise we get no class template argument deduction.");
 
-        static_assert
-        (
-            !std::is_same_v<void, typename DoFuncTraits::ClassType>, 
-            "Operation specialization's `Do` function must be non-static for api consistency." 
-        );
+        static consteval decltype(auto) GetDoFuncTraitsObj()
+        {
+            static_assert
+            (
+                requires { typename FunctionPtrTraits<&Op::Do>; },
+                "Operation specialization must contain a `Do` function."
+            );
+
+            return FunctionPtrTraits<&Op::Do>{};
+        }
+        using DoFuncTraits = decltype(GetDoFuncTraitsObj());
     };
 }
 

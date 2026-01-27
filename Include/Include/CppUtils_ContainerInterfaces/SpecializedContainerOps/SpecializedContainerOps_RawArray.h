@@ -11,12 +11,11 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetCapacity<T, ElementType[Capacity]>
     {
-        constexpr explicit ContainerOp_GetCapacity(const ElementType (&)[Capacity])
+        consteval explicit ContainerOp_GetCapacity(const ElementType (&)[Capacity])
         {
         }
 
-        constexpr std::size_t Do() const
-        { return Capacity; }
+        consteval std::size_t Do() const { return Capacity; }
     };
 
 
@@ -30,12 +29,11 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetSize<T, ElementType[Capacity]>
     {
-        constexpr explicit ContainerOp_GetSize(const ElementType (&)[Capacity])
+        consteval explicit ContainerOp_GetSize(const ElementType (&)[Capacity])
         {
         }
 
-        constexpr std::size_t Do() const
-        { return Capacity; }
+        consteval std::size_t Do() const { return Capacity; }
     };
     
 
@@ -46,11 +44,11 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsValidIndex<T, ElementType[Capacity]>
     {
-        constexpr explicit ContainerOp_IsValidIndex(const ElementType (&)[Capacity])
+        consteval explicit ContainerOp_IsValidIndex(const ElementType (&)[Capacity])
         {
         }
 
-        constexpr bool Do(const std::size_t index) const
+        consteval bool Do(const std::size_t index) const
         {
             return index >= 0
                 && index < Capacity;
@@ -68,12 +66,12 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsEmpty<T, ElementType[Capacity]>
     {
-        constexpr explicit ContainerOp_IsEmpty(const ElementType (&)[Capacity])
+        consteval explicit ContainerOp_IsEmpty(const ElementType (&)[Capacity])
         {
 
         }
 
-        constexpr bool Do() const
+        consteval bool Do() const
         {
             // NOTE: It is not possible for raw arrays to exist with no size/capacity.
             return false;

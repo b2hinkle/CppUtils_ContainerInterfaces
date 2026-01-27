@@ -11,12 +11,11 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetCapacity<T, std::array<ElementType, Capacity>>
     {
-        constexpr explicit ContainerOp_GetCapacity(const std::array<ElementType, Capacity>&)
+        consteval explicit ContainerOp_GetCapacity(const std::array<ElementType, Capacity>&)
         {
         }
 
-        constexpr std::size_t Do() const
-        { return Capacity; }
+        consteval std::size_t Do() const { return Capacity; }
     };
 
 
@@ -26,12 +25,11 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetSize<T, std::array<ElementType, Capacity>>
     {
-        constexpr explicit ContainerOp_GetSize(const std::array<ElementType, Capacity>&)
+        consteval explicit ContainerOp_GetSize(const std::array<ElementType, Capacity>&)
         {
         }
 
-        constexpr std::size_t Do() const
-        { return Capacity; }
+        consteval std::size_t Do() const { return Capacity; }
     };
     
 
@@ -44,11 +42,11 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsValidIndex<T, std::array<ElementType, Capacity>>
     {
-        constexpr explicit ContainerOp_IsValidIndex(const std::array<ElementType, Capacity>&)
+        consteval explicit ContainerOp_IsValidIndex(const std::array<ElementType, Capacity>&)
         {
         }
 
-        constexpr bool Do(const std::size_t index) const
+        consteval bool Do(const std::size_t index) const
         {
             return index >= 0
                 && index < Capacity;
@@ -67,11 +65,11 @@ namespace CppUtils
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsEmpty<T, std::array<ElementType, Capacity>>
     {
-        constexpr explicit ContainerOp_IsEmpty(const std::array<ElementType, Capacity>&)
+        consteval explicit ContainerOp_IsEmpty(const std::array<ElementType, Capacity>&)
         {
         }
 
-        constexpr bool Do() const
+        consteval bool Do() const
         {
             return Capacity == 0;
         }
