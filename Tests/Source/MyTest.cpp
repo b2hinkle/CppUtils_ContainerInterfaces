@@ -12,7 +12,7 @@ int main(int argc, char** argv)
         int rawArr[] = { 0, 1, 2 };
         
         constexpr std::size_t capacity = CppUtils::ContainerOps::GetCapacity(rawArr).Do();
-        constexpr int size = CppUtils::ContainerOps::GetSize(rawArr).Do();
+        constexpr std::size_t size = CppUtils::ContainerOps::GetSize(rawArr).Do();
         if (size != capacity) // Constant size arrays have same size and capacity.
         {
             isSuccess = false;
@@ -74,7 +74,7 @@ int main(int argc, char** argv)
 
     {
         static const std::array<int, 3> stdArr = { 0, 1, 2 };
-        constexpr int capacity = CppUtils::ContainerOps::GetCapacity(stdArr).Do();
+        constexpr std::size_t capacity = CppUtils::ContainerOps::GetCapacity(stdArr).Do();
 
         int rawArr[] = { 0, 1, 2 };
         const int& gottenStdArrElement = CppUtils::ContainerOps::GetElement(rawArr).Do(1);
