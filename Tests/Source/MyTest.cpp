@@ -4,6 +4,7 @@
 #include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_RawArray.h>
 #include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_StdArray.h>
 
+// TODO: Right now this is somewhat of a sandbox. Make proper individual tests.
 int main(int argc, char** argv)
 {
     {
