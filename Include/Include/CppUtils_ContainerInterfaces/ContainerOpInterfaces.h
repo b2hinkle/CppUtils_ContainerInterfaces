@@ -77,8 +77,8 @@ namespace CppUtils
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetCapacity(const T (&)[Capacity])
-        -> ContainerOpInterface_GetCapacity<const T (&)[Capacity]>;
+    ContainerOpInterface_GetCapacity(T (&)[Capacity])
+        -> ContainerOpInterface_GetCapacity<T (&)[Capacity]>;
 
     /*
     *
@@ -112,8 +112,8 @@ namespace CppUtils
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetSize(const T (&)[Capacity])
-        -> ContainerOpInterface_GetSize<const T (&)[Capacity]>;
+    ContainerOpInterface_GetSize(T (&)[Capacity])
+        -> ContainerOpInterface_GetSize<T (&)[Capacity]>;
 
     /*
     * TODO: I've started on some static assertions for this interface. We need to both finish this one, and make enforcements for the rest of the ops.
@@ -154,8 +154,8 @@ namespace CppUtils
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerOpInterface_IsValidIndex(const T (&)[Capacity])
-        -> ContainerOpInterface_IsValidIndex<const T (&)[Capacity]>;
+    ContainerOpInterface_IsValidIndex(T (&)[Capacity])
+        -> ContainerOpInterface_IsValidIndex<T (&)[Capacity]>;
     
     /*
     *
@@ -189,8 +189,8 @@ namespace CppUtils
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerOpInterface_IsEmpty(const T (&)[Capacity])
-        -> ContainerOpInterface_IsEmpty<const T (&)[Capacity]>;
+    ContainerOpInterface_IsEmpty(T (&)[Capacity])
+        -> ContainerOpInterface_IsEmpty<T (&)[Capacity]>;
     
     /*
     *
@@ -223,10 +223,6 @@ namespace CppUtils
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetFront(const T (&)[Capacity])
-        -> ContainerOpInterface_GetFront<const T (&)[Capacity]>;
-
-    template <class T, std::size_t Capacity>
     ContainerOpInterface_GetFront(T (&)[Capacity])
         -> ContainerOpInterface_GetFront<T (&)[Capacity]>;
 
@@ -252,10 +248,6 @@ namespace CppUtils
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
     template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetBack(const T (&)[Capacity])
-        -> ContainerOpInterface_GetBack<const T (&)[Capacity]>;
-
-    template <class T, std::size_t Capacity>
     ContainerOpInterface_GetBack(T (&)[Capacity])
         -> ContainerOpInterface_GetBack<T (&)[Capacity]>;
     
@@ -280,10 +272,6 @@ namespace CppUtils
         -> ContainerOpInterface_GetElement<T&>;
         
     // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetElement(const T (&)[Capacity])
-        -> ContainerOpInterface_GetElement<const T (&)[Capacity]>;
-
     template <class T, std::size_t Capacity>
     ContainerOpInterface_GetElement(T (&)[Capacity])
         -> ContainerOpInterface_GetElement<T (&)[Capacity]>;
