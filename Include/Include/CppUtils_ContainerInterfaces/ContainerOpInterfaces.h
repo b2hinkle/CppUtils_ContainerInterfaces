@@ -5,6 +5,8 @@
 #include <type_traits>
 #include <CppUtils_ContainerInterfaces/ContainerOpUtils.h>
 #include <CppUtils_Misc/FunctionTraits.h>
+#include <CppUtils_Misc/TypeTraits.h>
+#include <CppUtils_Misc/ContainerElementType.h>
 
 /*
 * Boilerplate deduction guides for container op interfaces. These allow for simple user api via CTAD, where the passed in container is enough
@@ -176,7 +178,7 @@ namespace CppUtils
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty)
     
     /*
-    *
+    * TODO: We're going to need to consolidate these assertions for reuse within other ops (e.g.ContainerOpInterface_GetBack).
     */
     template <class T>
     struct ContainerOpInterface_GetFront
@@ -187,16 +189,42 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-#if 0
         static_assert
         (
-            requires(Op op)
-            {
-                { op.Do() } -> std::same_as<typename T::value_type>; // TODO: Require correct return type.
-            },
-            "Op must have `Do` function with no parameters and element return type."
+            DoFuncTraits::GetArgsCount() == 0,
+            "GetFront op's `Do` function must take no parameters."
         );
-#endif
+
+        using ElementType = ContainerElementType_t<std::remove_reference_t<T>>;
+        
+        static_assert
+        (
+            std::is_same_v
+            <
+                std::remove_cvref_t<typename DoFuncTraits::ReturnType>,
+                std::remove_cvref_t<ElementType>
+            >,
+            "GetFront op `Do` function return value type must be the same as the container element's value type."
+        );
+
+        static_assert
+        (
+            std::is_lvalue_reference_v<typename DoFuncTraits::ReturnType>,
+            "GetFront op `Do` function return type must be an lvalue reference."
+        );
+
+        static_assert
+        (
+            IsConstAfterRemovingRef<typename DoFuncTraits::ReturnType>() == IsConstAfterRemovingRef<T>(),
+            "GetFront op `Do` function return type must be same constness as the container type."
+        );
+
+        static_assert
+        (
+            !IsConstAfterRemovingRef<ElementType>() ||
+            IsConstAfterRemovingRef<typename DoFuncTraits::ReturnType>(),
+            R"(GetFront op `Do` function return type must obey the constness of the element type. This assert simply evaluates to, "if the element type is const, the return type must also be const".)"
+        );
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront)
