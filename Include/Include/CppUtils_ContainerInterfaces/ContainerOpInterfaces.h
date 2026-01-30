@@ -121,7 +121,7 @@ namespace CppUtils
     }
 
     template <class TDoFuncTraits>
-    consteval void AssertDoFunc_IsFirstParamIntegral()
+    consteval void AssertDoFunc_HasIntegralFirstParam()
     {
         using FirstParam = std::tuple_element_t<0, typename TDoFuncTraits::ArgsTuple>;
         static_assert
@@ -220,7 +220,7 @@ namespace CppUtils
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsBoolReturn<DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsFirstParamIntegral<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasIntegralFirstParam<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
     };
 
@@ -293,7 +293,7 @@ namespace CppUtils
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsContainerElementReturn<T, DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsFirstParamIntegral<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasIntegralFirstParam<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
     };
 
