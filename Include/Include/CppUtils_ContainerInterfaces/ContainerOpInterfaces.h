@@ -36,7 +36,7 @@
 namespace CppUtils
 {
     template <class TDoFuncTraits>
-    consteval void DoFunc_IsIntegralReturn()
+    consteval void DoFuncAssert_IsIntegralReturn()
     {
         static_assert
         (
@@ -46,7 +46,7 @@ namespace CppUtils
     }
 
     template <class TDoFuncTraits>
-    consteval void DoFunc_IsBoolReturn()
+    consteval void DoFuncAssert_IsBoolReturn()
     {
         static_assert
         (
@@ -59,7 +59,7 @@ namespace CppUtils
     * Enforce proper returning of container element.
     */
     template <class TContainer, class TDoFuncTraits>
-    consteval void DoFunc_IsContainerElementReturn()
+    consteval void DoFuncAssert_IsContainerElementReturn()
     {
         using ElementType = ContainerElementType_t<std::remove_reference_t<TContainer>>;
 
@@ -101,7 +101,7 @@ namespace CppUtils
     }
 
     template <class TDoFuncTraits>
-    consteval void DoFunc_HasNoParams()
+    consteval void DoFuncAssert_HasNoParams()
     {
         static_assert
         (
@@ -111,7 +111,7 @@ namespace CppUtils
     }
 
     template <class TDoFuncTraits>
-    consteval void DoFunc_HasExactlyOneParam()
+    consteval void DoFuncAssert_HasExactlyOneParam()
     {
         static_assert
         (
@@ -121,7 +121,7 @@ namespace CppUtils
     }
 
     template <class TDoFuncTraits>
-    consteval void DoFunc_IsFirstParamIntegral()
+    consteval void DoFuncAssert_IsFirstParamIntegral()
     {
         using FirstParam = std::tuple_element_t<0, typename TDoFuncTraits::ArgsTuple>;
         static_assert
@@ -183,8 +183,8 @@ namespace CppUtils
 
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        CPPUTILS_STATIC_EXECUTE(DoFunc_IsIntegralReturn<DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_IsIntegralReturn<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetCapacity)
@@ -201,8 +201,8 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        CPPUTILS_STATIC_EXECUTE(DoFunc_IsIntegralReturn<DoFuncTraits>())
-        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_IsIntegralReturn<DoFuncTraits>())
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetSize)
@@ -219,9 +219,9 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        CPPUTILS_STATIC_EXECUTE(DoFunc_IsBoolReturn<DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(DoFunc_HasExactlyOneParam<DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(DoFunc_IsFirstParamIntegral<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_IsBoolReturn<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_HasExactlyOneParam<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_IsFirstParamIntegral<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsValidIndex)
@@ -238,8 +238,8 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        CPPUTILS_STATIC_EXECUTE(DoFunc_IsBoolReturn<DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_IsBoolReturn<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty)
@@ -256,8 +256,8 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(DoFunc_IsContainerElementReturn<T, DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_HasNoParams<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFuncAssert_IsContainerElementReturn<T, DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront)
