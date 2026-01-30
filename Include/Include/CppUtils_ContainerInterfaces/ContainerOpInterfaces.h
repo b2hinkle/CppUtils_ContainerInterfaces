@@ -208,7 +208,7 @@ namespace CppUtils
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetSize)
 
     /*
-    * TODO: I've started on some static assertions for this interface. We need to both finish this one, and make enforcements for the rest of the ops.
+    * 
     */
     template <class T>
     struct ContainerOpInterface_IsValidIndex
@@ -220,8 +220,8 @@ namespace CppUtils
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsBoolReturn<DoFuncTraits>());
-        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsFirstParamIntegral<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsValidIndex)
@@ -245,7 +245,7 @@ namespace CppUtils
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty)
     
     /*
-    * TODO: We're going to need to consolidate these assertions for reuse within other ops (e.g.ContainerOpInterface_GetBack).
+    * 
     */
     template <class T>
     struct ContainerOpInterface_GetFront
@@ -256,8 +256,8 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsContainerElementReturn<T, DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront)
@@ -271,10 +271,11 @@ namespace CppUtils
     {
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetBack, T>;
         using InterfaceBase::InterfaceBase;
+        
+        using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        using Op = ContainerOp_GetBack<T>;
-
-        //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsContainerElementReturn<T, DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetBack)
@@ -288,10 +289,12 @@ namespace CppUtils
     {
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetElement, T>;
         using InterfaceBase::InterfaceBase;
+        
+        using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        using Op = ContainerOp_GetElement<T>;
-
-        //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsContainerElementReturn<T, DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsFirstParamIntegral<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetElement)
