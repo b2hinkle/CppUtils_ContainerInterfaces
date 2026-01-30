@@ -5,6 +5,23 @@
 #include <type_traits>
 #include <CppUtils_ContainerInterfaces/ContainerOpUtils.h>
 #include <CppUtils/Misc/FunctionTraits.h>
+#include <CppUtils/Misc/TypeTraits.h>
+#include <CppUtils/Misc/ContainerElementType.h>
+
+/*
+* Boilerplate deduction guides for container op interfaces. These allow for simple user api via CTAD, where the passed in container is enough
+* to resolve the class template argument.
+* E.g. ContainerOpInterface(container) instead of ContainerOpInterface<decltype(container)>(container)
+*/
+#define CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface)                                                                             \
+    template <class T>                                                                                                                                   \
+    ContainerOpInterface(T&)                                                                                                                             \
+        -> ContainerOpInterface<T&>;                                                                                                                     \
+                                                                                                                                                         \
+    /* Specific deduction guide to preserve raw arrays types before they decay into ptrs. Specialization requires array type so we deduce it as such. */ \
+    template <class T, std::size_t Capacity>                                                                                                             \
+    ContainerOpInterface(T (&)[Capacity])                                                                                                                \
+        -> ContainerOpInterface<T (&)[Capacity]>;
 
 namespace CppUtils
 {
@@ -70,15 +87,7 @@ namespace CppUtils
         );
     };
 
-    // Deduction guide for more convenient user api.
-    template <class T>
-    ContainerOpInterface_GetCapacity(T&)
-        -> ContainerOpInterface_GetCapacity<T&>;
-        
-    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetCapacity(const T (&)[Capacity])
-        -> ContainerOpInterface_GetCapacity<const T (&)[Capacity]>;
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetCapacity)
 
     /*
     *
@@ -105,15 +114,7 @@ namespace CppUtils
         );
     };
 
-    // Deduction guide for more convenient user api.
-    template <class T>
-    ContainerOpInterface_GetSize(T&)
-        -> ContainerOpInterface_GetSize<T&>;
-        
-    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetSize(const T (&)[Capacity])
-        -> ContainerOpInterface_GetSize<const T (&)[Capacity]>;
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetSize)
 
     /*
     * TODO: I've started on some static assertions for this interface. We need to both finish this one, and make enforcements for the rest of the ops.
@@ -147,15 +148,7 @@ namespace CppUtils
         );
     };
 
-    // Deduction guide for more convenient user api.
-    template <class T>
-    ContainerOpInterface_IsValidIndex(T&)
-        -> ContainerOpInterface_IsValidIndex<T&>;
-        
-    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_IsValidIndex(const T (&)[Capacity])
-        -> ContainerOpInterface_IsValidIndex<const T (&)[Capacity]>;
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsValidIndex)
     
     /*
     *
@@ -182,18 +175,10 @@ namespace CppUtils
         );
     };
 
-    // Deduction guide for more convenient user api.
-    template <class T>
-    ContainerOpInterface_IsEmpty(T&)
-        -> ContainerOpInterface_IsEmpty<T&>;
-        
-    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_IsEmpty(const T (&)[Capacity])
-        -> ContainerOpInterface_IsEmpty<const T (&)[Capacity]>;
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty)
     
     /*
-    *
+    * TODO: We're going to need to consolidate these assertions for reuse within other ops (e.g.ContainerOpInterface_GetBack).
     */
     template <class T>
     struct ContainerOpInterface_GetFront
@@ -204,31 +189,45 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-#if 0
         static_assert
         (
-            requires(Op op)
-            {
-                { op.Do() } -> std::same_as<typename T::value_type>; // TODO: Require correct return type.
-            },
-            "Op must have `Do` function with no parameters and element return type."
+            DoFuncTraits::GetArgsCount() == 0,
+            "GetFront op's `Do` function must take no parameters."
         );
-#endif
+
+        using ElementType = ContainerElementType_t<std::remove_reference_t<T>>;
+        
+        static_assert
+        (
+            std::is_same_v
+            <
+                std::remove_cvref_t<typename DoFuncTraits::ReturnType>,
+                std::remove_cvref_t<ElementType>
+            >,
+            "GetFront op `Do` function return value type must be the same as the container element's value type."
+        );
+
+        static_assert
+        (
+            std::is_lvalue_reference_v<typename DoFuncTraits::ReturnType>,
+            "GetFront op `Do` function return type must be an lvalue reference."
+        );
+
+        static_assert
+        (
+            IsConstAfterRemovingRef<typename DoFuncTraits::ReturnType>() == IsConstAfterRemovingRef<T>(),
+            "GetFront op `Do` function return type must be same constness as the container type."
+        );
+
+        static_assert
+        (
+            !IsConstAfterRemovingRef<ElementType>() ||
+            IsConstAfterRemovingRef<typename DoFuncTraits::ReturnType>(),
+            R"(GetFront op `Do` function return type must obey the constness of the element type. This assert simply evaluates to, "if the element type is const, the return type must also be const".)"
+        );
     };
 
-    // Deduction guide for more convenient user api.
-    template <class T>
-    ContainerOpInterface_GetFront(T&)
-        -> ContainerOpInterface_GetFront<T&>;
-        
-    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetFront(const T (&)[Capacity])
-        -> ContainerOpInterface_GetFront<const T (&)[Capacity]>;
-
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetFront(T (&)[Capacity])
-        -> ContainerOpInterface_GetFront<T (&)[Capacity]>;
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront)
 
     /*
     *
@@ -245,19 +244,7 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
 
-    // Deduction guide for more convenient user api.
-    template <class T>
-    ContainerOpInterface_GetBack(T&)
-        -> ContainerOpInterface_GetBack<T&>;
-        
-    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetBack(const T (&)[Capacity])
-        -> ContainerOpInterface_GetBack<const T (&)[Capacity]>;
-
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetBack(T (&)[Capacity])
-        -> ContainerOpInterface_GetBack<T (&)[Capacity]>;
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetBack)
     
     /*
     *
@@ -274,17 +261,5 @@ namespace CppUtils
         //static_assert(sizeof(T) && std::); // TODO: I want to make enforcements on the doer. It's the whole purpose of this interface type.
     };
 
-    // Deduction guide for more convenient user api.
-    template <class T>
-    ContainerOpInterface_GetElement(T&)
-        -> ContainerOpInterface_GetElement<T&>;
-        
-    // Specific deduction guide to prevent decay of raw arrays types into ptrs. Specialization requires array type so we deduce it as such.
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetElement(const T (&)[Capacity])
-        -> ContainerOpInterface_GetElement<const T (&)[Capacity]>;
-
-    template <class T, std::size_t Capacity>
-    ContainerOpInterface_GetElement(T (&)[Capacity])
-        -> ContainerOpInterface_GetElement<T (&)[Capacity]>;
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetElement)
 }

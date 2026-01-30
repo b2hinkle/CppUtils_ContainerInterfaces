@@ -4,12 +4,13 @@
 #include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_RawArray.h>
 #include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_StdArray.h>
 
+// TODO: Right now this is somewhat of a sandbox. Make proper individual tests.
 int main(int argc, char** argv)
 {
     {
         bool isSuccess = true;
         
-        int rawArr[] = { 0, 1, 2 };
+        const int rawArr[] = { 0, 1, 2 };
         
         constexpr std::size_t capacity = CppUtils::ContainerOps::GetCapacity(rawArr).Do();
         constexpr std::size_t size = CppUtils::ContainerOps::GetSize(rawArr).Do();
@@ -25,7 +26,7 @@ int main(int argc, char** argv)
             isSuccess = false;
         }
 
-        int& gottenRawArrElement1 = CppUtils::ContainerOps::GetElement(rawArr).Do(0);
+        const int& gottenRawArrElement1 = CppUtils::ContainerOps::GetElement(rawArr).Do(0);
         if (gottenRawArrElement1 != 0)
         {
             isSuccess = false;
