@@ -152,6 +152,8 @@ namespace CppUtils
         static_assert(std::is_constructible_v<Op, T>,       "Constructor of operation specialization must accept the container type in order to allow for the class template argument deduction.");
         static_assert(!std::is_default_constructible_v<Op>, "Constructor of operation specialization can't take in nothing, otherwise we get no class template argument deduction.");
 
+        static_assert(!std::is_convertible_v<T, Op>, "Constructor must be explicit. We don't want the complexity of potential implicit conversions.");
+
         static consteval decltype(auto) GetDoFuncTraitsObj()
         {
             static_assert
