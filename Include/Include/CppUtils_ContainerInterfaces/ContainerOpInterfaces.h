@@ -147,7 +147,7 @@ namespace CppUtils
 
         static_assert(std::is_lvalue_reference_v<T>, "Interfaces require that the container type is an lvalue reference." );
 
-        // NOTE: As of now, this is all we can do for static enforcements on the operation specializations' constructor. We don't get as much power as with function traits since constructors aren't
+        // [techdebt]: As of now, this is all we can do for static enforcements on the operation specializations' constructor. We don't get as much power as with function traits since constructors aren't
         //       addressable and don't have a type. We will enforce what we can here. Cpp 26 could potentially help with this due to compile time reflection.
         static_assert(std::is_constructible_v<Op, T>,       "Constructor of operation specialization must accept the container type in order to allow for the class template argument deduction.");
         static_assert(!std::is_default_constructible_v<Op>, "Constructor of operation specialization can't take in nothing, otherwise we get no class template argument deduction.");
