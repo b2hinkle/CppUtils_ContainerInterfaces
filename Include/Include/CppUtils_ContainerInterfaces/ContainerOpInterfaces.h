@@ -4,7 +4,7 @@
 
 #include <type_traits>
 #include <CppUtils_ContainerInterfaces/ContainerOpUtils.h>
-#include <CppUtils_Misc/FunctionTraits.h>
+#include <CppUtils/Misc/FunctionTraits.h>
 
 namespace CppUtils
 {

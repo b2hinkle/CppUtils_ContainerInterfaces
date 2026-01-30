@@ -3,7 +3,7 @@
 #pragma once
 
 #include <array>
-#include <CppUtils_Misc/TypeTraits.h>
+#include <CppUtils/Misc/TypeTraits.h>
 #include <CppUtils_ContainerInterfaces/ContainerOps_PrimaryTemplate.h>
 
 namespace CppUtils
