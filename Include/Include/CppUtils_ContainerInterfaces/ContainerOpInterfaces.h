@@ -7,6 +7,7 @@
 #include <CppUtils/Misc/FunctionTraits.h>
 #include <CppUtils/Misc/TypeTraits.h>
 #include <CppUtils/Misc/ContainerElementType.h>
+#include <CppUtils/Misc/Static_Execute.h>
 
 /*
 * Boilerplate deduction guides for container op interfaces. These allow for simple user api via CTAD, where the passed in container is enough
@@ -23,6 +24,114 @@
     ContainerOpInterface(T (&)[Capacity])                                                                                                                \
         -> ContainerOpInterface<T (&)[Capacity]>;
 
+
+/*
+* Due to the nature of having many container interfaces, there are very common static assertions which we need in many different interfaces.
+* We avoid the duplicate code by creating consteval function wrappers which we static execute (via `CPPUTILS_STATIC_EXECUTE` utility).
+*
+* [techdebt] Generalizing these static asserts for reuse between different ops sadly makes error messaging less clear, since we can't provide the op name in the message.
+*            This is a tradeoff we have to make for now to avoid code duplication. In the future with non-string-literal static_assert messages (C++23), this can be improved, and
+*            compile time reflection (C++26) can help even more.
+*/
+namespace CppUtils
+{
+    template <class TDoFuncTraits>
+    consteval void DoFunc_IsIntegralReturn()
+    {
+        static_assert
+        (
+            std::is_integral_v<typename TDoFuncTraits::ReturnType>,
+            "Operation's `Do` function must return an integral type."
+        );
+    }
+
+    template <class TDoFuncTraits>
+    consteval void DoFunc_IsBoolReturn()
+    {
+        static_assert
+        (
+            std::is_same_v<bool, typename TDoFuncTraits::ReturnType>,
+            "Operation's `Do` function must return a boolean."
+        );
+    }
+
+    /*
+    * Enforce proper returning of container element.
+    */
+    template <class TContainer, class TDoFuncTraits>
+    consteval void DoFunc_IsContainerElementReturn()
+    {
+        using ElementType = ContainerElementType_t<std::remove_reference_t<TContainer>>;
+
+        // Enforce value type correctness between the container element type and the return type.
+        {
+            static_assert
+            (
+                std::is_same_v
+                <
+                    std::remove_cvref_t<typename TDoFuncTraits::ReturnType>,
+                    std::remove_cvref_t<ElementType>
+                >,
+                "Operation's `Do` function return value type must be the same as the container element's value type."
+            );
+        }
+
+        // Enforce returning a reference to the container element. Caller may still grab a copy from this reference if needed.
+        static_assert
+        (
+            std::is_lvalue_reference_v<typename TDoFuncTraits::ReturnType>,
+            "Operation's `Do` function return type must be an lvalue reference."
+        );
+
+        // Enforce const correctness between the container and container element type with the return type.
+        {
+            static_assert
+            (
+                IsConstAfterRemovingRef<typename TDoFuncTraits::ReturnType>() == IsConstAfterRemovingRef<TContainer>(),
+                "Operation's `Do` function return type must be same constness as the container type."
+            );
+    
+            static_assert
+            (
+                !IsConstAfterRemovingRef<ElementType>() ||
+                IsConstAfterRemovingRef<typename TDoFuncTraits::ReturnType>(),
+                R"(Operation's `Do` function return type must obey the constness of the element type. This assert simply evaluates to, "if the element type is const, the return type must also be const".)"
+            );
+        }
+    }
+
+    template <class TDoFuncTraits>
+    consteval void DoFunc_HasNoParams()
+    {
+        static_assert
+        (
+            TDoFuncTraits::GetArgsCount() == 0,
+            "Operation's `Do` function must have no parameters."
+        );
+    }
+
+    template <class TDoFuncTraits>
+    consteval void DoFunc_HasExactlyOneParam()
+    {
+        static_assert
+        (
+            TDoFuncTraits::GetArgsCount() == 1,
+            "Operation's `Do` function must have exactly one parameter."
+        );
+    }
+
+    template <class TDoFuncTraits>
+    consteval void DoFunc_IsFirstParamIntegral()
+    {
+        using FirstParam = std::tuple_element_t<0, typename TDoFuncTraits::ArgsTuple>;
+        static_assert
+        (
+            std::is_integral_v<FirstParam>,
+            "Operation's `Do` function must have integral type as its first parameter."
+        );
+    }
+}
+    
 namespace CppUtils
 {
     /*
@@ -74,17 +183,8 @@ namespace CppUtils
 
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        static_assert
-        (
-            std::is_integral_v<typename DoFuncTraits::ReturnType>,
-            "GetCapacity op's `Do` function must return an integral type."
-        );
-
-        static_assert
-        (
-            DoFuncTraits::GetArgsCount() == 0,
-            "GetCapacity op's `Do` function must take no parameters."
-        );
+        CPPUTILS_STATIC_EXECUTE(DoFunc_IsIntegralReturn<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetCapacity)
@@ -101,17 +201,8 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        static_assert
-        (
-            std::is_integral_v<typename DoFuncTraits::ReturnType>,
-            "GetSize op's `Do` function must return an integral type."
-        );
-
-        static_assert
-        (
-            DoFuncTraits::GetArgsCount() == 0,
-            "GetSize op's `Do` function must take no parameters."
-        );
+        CPPUTILS_STATIC_EXECUTE(DoFunc_IsIntegralReturn<DoFuncTraits>())
+        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetSize)
@@ -128,24 +219,9 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        static_assert
-        (
-            std::is_same_v<bool, typename DoFuncTraits::ReturnType>,
-            "IsValidIndex op's `Do` function must return a boolean."
-        );
-
-        static_assert
-        (
-            DoFuncTraits::GetArgsCount() == 1,
-            "IsValidIndex op's `Do` function must take exactly one parameter."
-        );
-        using FirstParam = std::tuple_element_t<0, typename DoFuncTraits::ArgsTuple>;
-
-        static_assert
-        (
-            std::is_integral_v<FirstParam>,
-            "IsValidIndex op's `Do` function must take in an integral parameter for the index."
-        );
+        CPPUTILS_STATIC_EXECUTE(DoFunc_IsBoolReturn<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFunc_HasExactlyOneParam<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFunc_IsFirstParamIntegral<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsValidIndex)
@@ -162,17 +238,8 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        static_assert
-        (
-            std::is_same_v<bool, typename DoFuncTraits::ReturnType>,
-            "IsEmpty op's `Do` function must return a boolean."
-        );
-
-        static_assert
-        (
-            DoFuncTraits::GetArgsCount() == 0,
-            "IsEmpty op's `Do` function must take no parameters."
-        );
+        CPPUTILS_STATIC_EXECUTE(DoFunc_IsBoolReturn<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty)
@@ -189,42 +256,8 @@ namespace CppUtils
         
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
-        static_assert
-        (
-            DoFuncTraits::GetArgsCount() == 0,
-            "GetFront op's `Do` function must take no parameters."
-        );
-
-        using ElementType = ContainerElementType_t<std::remove_reference_t<T>>;
-        
-        static_assert
-        (
-            std::is_same_v
-            <
-                std::remove_cvref_t<typename DoFuncTraits::ReturnType>,
-                std::remove_cvref_t<ElementType>
-            >,
-            "GetFront op `Do` function return value type must be the same as the container element's value type."
-        );
-
-        static_assert
-        (
-            std::is_lvalue_reference_v<typename DoFuncTraits::ReturnType>,
-            "GetFront op `Do` function return type must be an lvalue reference."
-        );
-
-        static_assert
-        (
-            IsConstAfterRemovingRef<typename DoFuncTraits::ReturnType>() == IsConstAfterRemovingRef<T>(),
-            "GetFront op `Do` function return type must be same constness as the container type."
-        );
-
-        static_assert
-        (
-            !IsConstAfterRemovingRef<ElementType>() ||
-            IsConstAfterRemovingRef<typename DoFuncTraits::ReturnType>(),
-            R"(GetFront op `Do` function return type must obey the constness of the element type. This assert simply evaluates to, "if the element type is const, the return type must also be const".)"
-        );
+        CPPUTILS_STATIC_EXECUTE(DoFunc_HasNoParams<DoFuncTraits>());
+        CPPUTILS_STATIC_EXECUTE(DoFunc_IsContainerElementReturn<T, DoFuncTraits>());
     };
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront)
