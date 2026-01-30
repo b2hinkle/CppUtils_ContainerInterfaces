@@ -6,6 +6,10 @@
 #include <CppUtils/Misc/TypeTraits.h>
 #include <CppUtils_ContainerInterfaces/ContainerOps_PrimaryTemplate.h>
 
+/*
+* Some raw array details to keep in mind:
+*   - It is not possible for raw arrays to exist with no size/capacity.
+*/
 namespace CppUtils
 {
     template <class T, class ElementType, std::size_t Capacity>
@@ -73,7 +77,6 @@ namespace CppUtils
 
         consteval bool Do() const
         {
-            // NOTE: It is not possible for raw arrays to exist with no size/capacity.
             return false;
         }
     };
@@ -101,14 +104,13 @@ namespace CppUtils
         constexpr const ElementType& Do()
             requires (IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
+            
             return Arr[0];
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
             return Arr[0];
         }
         
@@ -140,14 +142,12 @@ private:
         constexpr const ElementType& Do()
             requires (IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
             return Arr[Capacity - 1];
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Assert will never hit, as it is not possible for raw arrays to exist with no size/capacity.");
             return Arr[Capacity - 1];
         }
         

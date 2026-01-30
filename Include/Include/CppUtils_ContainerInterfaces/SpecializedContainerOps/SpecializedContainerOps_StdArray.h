@@ -6,6 +6,8 @@
 #include <CppUtils/Misc/TypeTraits.h>
 #include <CppUtils_ContainerInterfaces/ContainerOps_PrimaryTemplate.h>
 
+#define STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+
 namespace CppUtils
 {    
     template <class T, class ElementType, std::size_t Capacity>
@@ -81,8 +83,6 @@ namespace CppUtils
     
 
 
-    
-
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetFront<T, std::array<ElementType, Capacity>>
     {
@@ -96,17 +96,19 @@ namespace CppUtils
         {
         }
 
+        static consteval void AssertAgainstUndefinedBehavior() {  }
+
         constexpr const ElementType& Do()
             requires (IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
             return Arr.front();
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
             return Arr.front();
         }
         
@@ -135,18 +137,18 @@ private:
             : Arr(arr)
         {
         }
-
+        
         constexpr const ElementType& Do()
             requires (IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
             return Arr.back();
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
-            static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
+            STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
             return Arr.back();
         }
         
@@ -192,3 +194,8 @@ private:
         T Arr {};
     };    
 }
+
+#if !defined(STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR)
+#    error "STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR macro expected to be defined."
+#endif
+#undef STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR
