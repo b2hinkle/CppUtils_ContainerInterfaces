@@ -8,6 +8,7 @@
 #include <CppUtils/Misc/TypeTraits.h>
 #include <CppUtils/Misc/ContainerElementType.h>
 #include <CppUtils/Misc/Static_Execute.h>
+#include <CppUtils/Misc/TypeProbes.h>
 
 /*
 * Boilerplate deduction guides for container op interfaces. These allow for simple user api via CTAD, where the passed in container is enough
@@ -131,7 +132,7 @@ namespace CppUtils
         );
     }
 }
-    
+
 namespace CppUtils
 {
     /*
@@ -147,12 +148,15 @@ namespace CppUtils
 
         static_assert(std::is_lvalue_reference_v<T>, "Interfaces require that the container type is an lvalue reference." );
 
-        // [techdebt]: As of now, this is all we can do for static enforcements on the operation specializations' constructor. We don't get as much power as with function traits since constructors aren't
-        //       addressable and don't have a type. We will enforce what we can here. Cpp 26 could potentially help with this due to compile time reflection.
-        static_assert(std::is_constructible_v<Op, T>,       "Constructor of operation specialization must accept the container type in order to allow for the class template argument deduction.");
-        static_assert(!std::is_default_constructible_v<Op>, "Constructor of operation specialization can't take in nothing, otherwise we get no class template argument deduction.");
+        /*
+        * We enforce an lvalue reference to the container type as the ctr. This is for multiple reasons. It enforces the consistency of our convenient user api (nice class template argument deduction).
+        *    It also enforces zero copies of container data, and sets us up for the standard compiler optimization ____, which elides the ptr copy for the reference member.
+        */
+        static_assert(std::is_constructible_v<Op, TypeProbe_LValueRef<std::remove_reference_t<T>>>,       "Ctr of operation specialization must take 1 parameter, which accepts lvalue reference to the container type.");
+        static_assert(!std::is_default_constructible_v<Op>, "Operation specialization can't have default ctr. We enforce a consistant user api which only accepts lvalue ref to user's container type.");
 
-        static_assert(!std::is_convertible_v<T, Op>, "Constructor must be explicit. We don't want the complexity of potential implicit conversions.");
+        static_assert(!std::is_convertible_v<T, Op>, "Constructor must be explicit. We have this constraint to eliminate potental implicit conversion complexity that may be unexpected.");
+
 
         static consteval decltype(auto) GetDoFuncTraitsObj()
         {
