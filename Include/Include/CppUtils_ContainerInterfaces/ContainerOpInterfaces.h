@@ -41,7 +41,7 @@ namespace CppUtils
     {
         static_assert
         (
-            std::is_constructible_v<TOp, TypeProbe_ConstRef<std::remove_reference_t<T>>>,
+            std::is_constructible_v<TOp, TypeProbe_ConstRef<std::remove_cvref_t<T>>>,
             "Container type for operation's ctr must be const."
         );
     }
@@ -162,7 +162,7 @@ namespace CppUtils
         * We enforce an lvalue reference to the container type as the ctr. This is for multiple reasons. It enforces the consistency of our convenient user api (nice class template argument deduction).
         *    It also enforces zero copies of container data, and sets us up for the standard compiler optimization ____, which elides the ptr copy for the reference member.
         */
-        static_assert(std::is_constructible_v<Op, TypeProbe_LValueRef<std::remove_reference_t<T>>>,       "Ctr of operation specialization must take 1 parameter, which accepts lvalue reference to the container type.");
+        static_assert(std::is_constructible_v<Op, TypeProbe_LValueRef<std::remove_cvref_t<T>>>,       "Ctr of operation specialization must take 1 parameter, which accepts lvalue reference to the container type.");
         static_assert(!std::is_default_constructible_v<Op>, "Operation specialization can't have default ctr. We enforce a consistant user api which only accepts lvalue ref to user's container type.");
 
         static_assert(!std::is_convertible_v<T, Op>, "Constructor must be explicit. We have this constraint to eliminate potental implicit conversion complexity that may be unexpected.");
