@@ -96,8 +96,6 @@ namespace CppUtils
         {
         }
 
-        static consteval void AssertAgainstUndefinedBehavior() {  }
-
         constexpr const ElementType& Do()
             requires (IsConstAfterRemovingRef<T>())
         {
