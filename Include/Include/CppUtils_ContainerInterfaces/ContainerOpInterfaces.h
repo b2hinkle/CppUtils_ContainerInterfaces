@@ -36,6 +36,16 @@
 */
 namespace CppUtils
 {
+    template <class TOp, class T>
+    consteval void AssertDoFunc_IsCtrContainerTypeParamConst()
+    {
+        static_assert
+        (
+            std::is_constructible_v<TOp, TypeProbe_ConstRef<std::remove_reference_t<T>>>,
+            "Container type for operation's ctr must be const."
+        );
+    }
+
     template <class TDoFuncTraits>
     consteval void AssertDoFunc_IsIntegralReturn()
     {
@@ -187,8 +197,10 @@ namespace CppUtils
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetCapacity, T>;
         using InterfaceBase::InterfaceBase;
 
+        using Op = InterfaceBase::Op;
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsCtrContainerTypeParamConst<Op, T>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsIntegralReturn<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
@@ -205,8 +217,10 @@ namespace CppUtils
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_GetSize, T>;
         using InterfaceBase::InterfaceBase;
         
+        using Op = InterfaceBase::Op;
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsCtrContainerTypeParamConst<Op, T>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsIntegralReturn<DoFuncTraits>())
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
@@ -223,8 +237,10 @@ namespace CppUtils
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_IsValidIndex, T>;
         using InterfaceBase::InterfaceBase;
         
+        using Op = InterfaceBase::Op;
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsCtrContainerTypeParamConst<Op, T>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsBoolReturn<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasIntegralFirstParam<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
@@ -242,8 +258,10 @@ namespace CppUtils
         using InterfaceBase = ContainerOpInterfaceBase<ContainerOp_IsEmpty, T>;
         using InterfaceBase::InterfaceBase;
         
+        using Op = InterfaceBase::Op;
         using DoFuncTraits = InterfaceBase::DoFuncTraits;
 
+        CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsCtrContainerTypeParamConst<Op, T>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_IsBoolReturn<DoFuncTraits>());
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
