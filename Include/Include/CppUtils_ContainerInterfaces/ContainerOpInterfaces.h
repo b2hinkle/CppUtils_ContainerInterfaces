@@ -158,7 +158,7 @@ namespace CppUtils
         static_assert(!std::is_convertible_v<T, Op>, "Constructor must be explicit. We have this constraint to eliminate potental implicit conversion complexity that may be unexpected.");
 
 
-        static consteval decltype(auto) GetDoFuncTraitsObj()
+        static consteval decltype(auto) GetDoFuncTraitsTypeAsObj()
         {
             static_assert
             (
@@ -168,7 +168,7 @@ namespace CppUtils
 
             return FunctionPtrTraits<&Op::Do>{};
         }
-        using DoFuncTraits = decltype(GetDoFuncTraitsObj());
+        using DoFuncTraits = decltype(GetDoFuncTraitsTypeAsObj());
     };
 }
 
