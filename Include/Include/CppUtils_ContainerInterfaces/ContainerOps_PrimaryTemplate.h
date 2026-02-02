@@ -23,26 +23,44 @@ namespace CppUtils
     template <class T>
     using SpecializationCompatibleT = std::remove_cvref_t<T>;
 
+    /*
+    * Returns the number of elements that the container has currently allocated space for.
+    */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetCapacity;
     
+    /*
+    * Returns the number of elements in the container.
+    */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetSize;
     
+    /*
+    * Returns whether the provided index is within the bounds of the container's size.
+    */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_IsValidIndex;
     
+    /*
+    * Returns whether the container has any elements.
+    */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_IsEmpty;
     
+    /*
+    * Returns the first element in the container.
+    */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetFront;
     
+    /*
+    * Returns the last element in the container.
+    */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetBack;
     
     /*
-    * Accesses element at index, no bounds checking (e.g. subscript behavior on an array).
+    * Returns the element at index via direct access. No bounds checking.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetElement;
