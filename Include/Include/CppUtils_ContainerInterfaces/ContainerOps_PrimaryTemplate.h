@@ -17,33 +17,34 @@
 namespace CppUtils
 {
     /*
-    * Our rule which creates compatability with the container op specializations.
+    * Creates compatability with the container op specializations.
+    * This way, all forms of a container type resolve to the same container operation.
     */
     template <class T>
-    using StripQualifiers = std::remove_cvref_t<T>;
+    using SpecializationCompatibleT = std::remove_cvref_t<T>;
 
-    template <class T, class UnqualifiedT = StripQualifiers<T>>
+    template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetCapacity;
     
-    template <class T, class UnqualifiedT = StripQualifiers<T>>
+    template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetSize;
     
-    template <class T, class UnqualifiedT = StripQualifiers<T>>
+    template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_IsValidIndex;
     
-    template <class T, class UnqualifiedT = StripQualifiers<T>>
+    template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_IsEmpty;
     
-    template <class T, class UnqualifiedT = StripQualifiers<T>>
+    template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetFront;
     
-    template <class T, class UnqualifiedT = StripQualifiers<T>>
+    template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetBack;
     
     /*
     * Accesses element at index, no bounds checking (e.g. subscript behavior on an array).
     */
-    template <class T, class UnqualifiedT = StripQualifiers<T>>
+    template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
     struct ContainerOp_GetElement;
 
 }
