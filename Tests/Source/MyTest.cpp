@@ -3,10 +3,18 @@
 #include <CppUtils_ContainerInterfaces/ContainerOps.h>
 #include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_RawArray.h>
 #include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_StdArray.h>
+#include <CppUtils_ContainerInterfaces/SpecializedContainerOps/SpecializedContainerOps_StdVector.h>
+
+#include <vector>
 
 // TODO: Right now this is somewhat of a sandbox. Make proper individual tests.
 int main(int argc, char** argv)
 {
+    {
+        std::vector<int> vec;
+        const std::size_t cap = CppUtils::ContainerOps::GetCapacity{vec}.Do();
+    }
+    
     {
         bool isSuccess = true;
         

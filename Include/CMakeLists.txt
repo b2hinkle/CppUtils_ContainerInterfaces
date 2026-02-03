@@ -93,6 +93,7 @@ target_sources(${MY_BASE_PROJECT_NAME_FULL}_Include
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOps.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_RawArray.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_StdArray.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_StdVector.h"
   )
 
 # Note that we do not "find package" for our parent project. We don't need to since we are built in the same

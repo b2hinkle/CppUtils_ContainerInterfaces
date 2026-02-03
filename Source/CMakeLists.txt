@@ -104,6 +104,7 @@ block(SCOPE_FOR VARIABLES)
     "${MY_BASE_PROJECT_NAME_FULL}/ContainerOpUtils.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_RawArray.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_StdArray.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_StdVector.cpp"
     )
 
   # Add source file paths for `BUILD_LOCAL_INTERFACE` users.
