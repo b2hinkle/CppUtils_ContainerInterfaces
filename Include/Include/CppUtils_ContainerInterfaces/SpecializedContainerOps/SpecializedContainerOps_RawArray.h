@@ -22,14 +22,6 @@ namespace CppUtils
         consteval std::size_t Do() const { return Capacity; }
     };
 
-
-
-
-
-    
-    
-    
-    
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetSize<T, ElementType[Capacity]>
     {
@@ -39,11 +31,6 @@ namespace CppUtils
 
         consteval std::size_t Do() const { return Capacity; }
     };
-    
-
-    
-    
-    
     
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsValidIndex<T, ElementType[Capacity]>
@@ -59,14 +46,6 @@ namespace CppUtils
         }
     };
     
-    
-    
-
-    
-    
-    
-    
-    
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsEmpty<T, ElementType[Capacity]>
     {
@@ -81,23 +60,16 @@ namespace CppUtils
         }
     };
     
-    
-    
-
-    
-    
-    
-    
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetFront<T, ElementType[Capacity]>
     {
         constexpr explicit ContainerOp_GetFront(const ElementType (&arr)[Capacity])
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr explicit ContainerOp_GetFront(ElementType (&arr)[Capacity])
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
@@ -105,91 +77,78 @@ namespace CppUtils
             requires (IsConstAfterRemovingRef<T>())
         {
             
-            return Arr[0];
+            return m_Arr[0];
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
-            return Arr[0];
+            return m_Arr[0];
         }
         
 private:
 
-        T Arr {};
+        T m_Arr {};
     };
-    
-    
-    
-
-    
-    
     
     
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetBack<T, ElementType[Capacity]>
     {
         constexpr explicit ContainerOp_GetBack(const ElementType (&arr)[Capacity])
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr explicit ContainerOp_GetBack(ElementType (&arr)[Capacity])
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr const ElementType& Do()
             requires (IsConstAfterRemovingRef<T>())
         {
-            return Arr[Capacity - 1];
+            return m_Arr[Capacity - 1];
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
-            return Arr[Capacity - 1];
+            return m_Arr[Capacity - 1];
         }
         
 private:
 
-        T Arr {};
+        T m_Arr {};
     };
-    
-    
-    
-
-    
-    
-    
     
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetElement<T, ElementType[Capacity]>
     {
         constexpr explicit ContainerOp_GetElement(const ElementType (&arr)[Capacity])
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr explicit ContainerOp_GetElement(ElementType (&arr)[Capacity])
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
         
         constexpr const ElementType& Do(const std::size_t index) const
             requires (IsConstAfterRemovingRef<T>())
         {
-            return Arr[index];
+            return m_Arr[index];
         }
 
         constexpr ElementType& Do(const std::size_t index) const
             requires (!IsConstAfterRemovingRef<T>())
         {
-            return Arr[index];
+            return m_Arr[index];
         }
         
 private:
 
-        T Arr {};
+        T m_Arr {};
     };
 }

@@ -20,10 +20,6 @@ namespace CppUtils
         consteval std::size_t Do() const { return Capacity; }
     };
 
-
-
-
-
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetSize<T, std::array<ElementType, Capacity>>
     {
@@ -33,13 +29,6 @@ namespace CppUtils
 
         consteval std::size_t Do() const { return Capacity; }
     };
-    
-
-    
-    
-    
-    
-    
     
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsValidIndex<T, std::array<ElementType, Capacity>>
@@ -55,15 +44,6 @@ namespace CppUtils
         }
     };
     
-    
-    
-
-    
-    
-    
-    
-    
-
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_IsEmpty<T, std::array<ElementType, Capacity>>
     {
@@ -77,22 +57,16 @@ namespace CppUtils
         }
     };
     
-    
-    
-
-    
-
-
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetFront<T, std::array<ElementType, Capacity>>
     {
         constexpr explicit ContainerOp_GetFront(const std::array<ElementType, Capacity>& arr)
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr explicit ContainerOp_GetFront(std::array<ElementType, Capacity>& arr)
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
@@ -100,39 +74,31 @@ namespace CppUtils
             requires (IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
-            return Arr.front();
+            return m_Arr.front();
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
-            return Arr.front();
+            return m_Arr.front();
         }
         
 private:
 
-        T Arr {};
+        T m_Arr {};
     };
-    
-    
-    
-
-    
-    
-    
-    
-    
+        
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetBack<T, std::array<ElementType, Capacity>>
     {
         constexpr explicit ContainerOp_GetBack(const std::array<ElementType, Capacity>& arr)
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr explicit ContainerOp_GetBack(std::array<ElementType, Capacity>& arr)
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
         
@@ -140,56 +106,49 @@ private:
             requires (IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
-            return Arr.back();
+            return m_Arr.back();
         }
 
         constexpr ElementType& Do()
             requires (!IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
-            return Arr.back();
+            return m_Arr.back();
         }
         
 private:
 
-        T Arr {};
+        T m_Arr {};
     };
-    
-    
-    
-
-    
-    
-    
-    
+        
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetElement<T, std::array<ElementType, Capacity>>
     {
         constexpr explicit ContainerOp_GetElement(const std::array<ElementType, Capacity>& arr)
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr explicit ContainerOp_GetElement(std::array<ElementType, Capacity>& arr)
-            : Arr(arr)
+            : m_Arr(arr)
         {
         }
 
         constexpr const ElementType& Do(const std::size_t index) const
             requires (IsConstAfterRemovingRef<T>())
         {
-            return Arr[index];
+            return m_Arr[index];
         }
 
         constexpr ElementType& Do(const std::size_t index) const
             requires (!IsConstAfterRemovingRef<T>())
         {
-            return Arr[index];
+            return m_Arr[index];
         }
         
 private:
 
-        T Arr {};
+        T m_Arr {};
     };    
 }
 
