@@ -174,9 +174,6 @@ namespace CppUtils
 */
 namespace CppUtils
 {
-    /*
-    *
-    */
     template <class T>
     struct ContainerOpInterface_GetCapacity
         : ContainerOpInterfaceBase<ContainerOp_GetCapacity, T>
@@ -194,9 +191,6 @@ namespace CppUtils
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetCapacity)
 
-    /*
-    *
-    */
     template <class T>
     struct ContainerOpInterface_GetSize
         : ContainerOpInterfaceBase<ContainerOp_GetSize, T>
@@ -214,9 +208,6 @@ namespace CppUtils
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetSize)
 
-    /*
-    * 
-    */
     template <class T>
     struct ContainerOpInterface_IsValidIndex
         : ContainerOpInterfaceBase<ContainerOp_IsValidIndex, T>
@@ -235,9 +226,6 @@ namespace CppUtils
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsValidIndex)
     
-    /*
-    *
-    */
     template <class T>
     struct ContainerOpInterface_IsEmpty
         : ContainerOpInterfaceBase<ContainerOp_IsEmpty, T>
@@ -255,9 +243,6 @@ namespace CppUtils
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty)
     
-    /*
-    * 
-    */
     template <class T>
     struct ContainerOpInterface_GetFront
         : ContainerOpInterfaceBase<ContainerOp_GetFront, T>
@@ -273,9 +258,6 @@ namespace CppUtils
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront)
 
-    /*
-    *
-    */
     template <class T>
     struct ContainerOpInterface_GetBack
         : ContainerOpInterfaceBase<ContainerOp_GetBack, T>
@@ -291,9 +273,6 @@ namespace CppUtils
 
     CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetBack)
     
-    /*
-    *
-    */
     template <class T>
     struct ContainerOpInterface_GetElement
         : ContainerOpInterfaceBase<ContainerOp_GetElement, T>
