@@ -23,10 +23,6 @@ namespace CppUtils
 * T is the fully untouched type provided by the caller.
 * SpecializationKey is an automatically handled argument which facilitates the specialization selection. We specialize
 * based on a normalized T (check SpecializationCompatibleT for normalization process) container type to avoid multiple specializations for a single container operation.
-* 
-* NOTE: I dislike how we use default template argument for selecting partial specializations, but I've not found an
-*       alternative yet which still takes advantage of template specialization. We could possibly create a
-*       specialization selection helper struct which could hide the parameter, but that seems more complex than needed.
 */
 namespace CppUtils
 {
