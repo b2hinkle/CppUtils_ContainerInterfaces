@@ -9,6 +9,7 @@
 #include <CppUtils/Misc/ContainerElementType.h>
 #include <CppUtils/Misc/Static_Execute.h>
 #include <CppUtils/Misc/TypeProbes.h>
+#include <CppUtils/Misc/Tag_IsPrimaryTemplate.h>
 
 /*
 * Boilerplate deduction guides for container op interfaces. These allow for simple user api via CTAD, where the passed in container is enough
@@ -149,6 +150,7 @@ namespace CppUtils
     * Base level interface for container ops. Container op interfaces must derive from this base for base level enforcements, as well as the container op itself.
     */
     template <template<class> class ContainerOp_Generic, class T>
+        requires (!std::is_base_of_v<Tag_IsPrimaryTemplate, ContainerOp_Generic<T>>)
     struct ContainerOpInterfaceBase
         : ContainerOp_Generic<T>
     {

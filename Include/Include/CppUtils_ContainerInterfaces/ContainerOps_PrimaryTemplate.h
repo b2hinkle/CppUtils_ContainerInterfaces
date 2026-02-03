@@ -3,6 +3,20 @@
 #pragma once
 
 #include <type_traits>
+#include <CppUtils/Misc/Tag_IsPrimaryTemplate.h>
+
+#define CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOpName) \
+    static_assert(sizeof(T) && false, "Provided container type has no implementation for " #ContainerOpName ". Either not supported by the container type, or the specialization simply wasn't implemented yet.");
+
+namespace CppUtils
+{
+    /*
+    * Creates compatability with the container op specializations.
+    * This way, all forms of a container type resolve to the same container operation.
+    */
+    template <class T>
+    using SpecializationCompatibleT = std::remove_cvref_t<T>;
+}
 
 /*
 * All container operations which different container types can specialize to provide specific implementations.
@@ -17,52 +31,71 @@
 namespace CppUtils
 {
     /*
-    * Creates compatability with the container op specializations.
-    * This way, all forms of a container type resolve to the same container operation.
-    */
-    template <class T>
-    using SpecializationCompatibleT = std::remove_cvref_t<T>;
-
-    /*
     * Returns the number of elements that the container has currently allocated space for.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
-    struct ContainerOp_GetCapacity;
+    struct ContainerOp_GetCapacity : Tag_IsPrimaryTemplate
+    {
+        CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOp_GetCapacity);
+    };
     
     /*
     * Returns the number of elements in the container.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
-    struct ContainerOp_GetSize;
+    struct ContainerOp_GetSize : Tag_IsPrimaryTemplate
+    {
+        CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOp_GetSize);
+    };
     
     /*
     * Returns whether the provided index is within the bounds of the container's size.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
-    struct ContainerOp_IsValidIndex;
+    struct ContainerOp_IsValidIndex : Tag_IsPrimaryTemplate
+    {
+        CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOp_IsValidIndex);
+    };
     
     /*
     * Returns whether the container has any elements.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
-    struct ContainerOp_IsEmpty;
+    struct ContainerOp_IsEmpty : Tag_IsPrimaryTemplate
+    {
+        CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOp_IsEmpty);
+    };
     
     /*
     * Returns the first element in the container.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
-    struct ContainerOp_GetFront;
+    struct ContainerOp_GetFront : Tag_IsPrimaryTemplate
+    {
+        CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOp_GetFront);
+    };
     
     /*
     * Returns the last element in the container.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
-    struct ContainerOp_GetBack;
+    struct ContainerOp_GetBack : Tag_IsPrimaryTemplate
+    {
+        CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOp_GetBack);
+    };
     
     /*
     * Returns the element at index via direct access. No bounds checking.
     */
     template <class T, class SpecializationKey = SpecializationCompatibleT<T>>
-    struct ContainerOp_GetElement;
+    struct ContainerOp_GetElement : Tag_IsPrimaryTemplate
+    {
+        CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOp_GetElement);
+    };
 
 }
+
+#if !defined(CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT)
+#    error "CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT macro expected to be defined."
+#endif
+#undef CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT
