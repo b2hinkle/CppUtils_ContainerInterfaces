@@ -70,14 +70,14 @@ namespace CppUtils
         {
         }
 
-        constexpr const ElementType& Do()
+        constexpr const ElementType& Do() const
             requires (IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
             return m_Arr.front();
         }
 
-        constexpr ElementType& Do()
+        constexpr ElementType& Do() const
             requires (!IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
@@ -102,14 +102,14 @@ private:
         {
         }
         
-        constexpr const ElementType& Do()
+        constexpr const ElementType& Do() const
             requires (IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;
             return m_Arr.back();
         }
 
-        constexpr ElementType& Do()
+        constexpr ElementType& Do() const
             requires (!IsConstAfterRemovingRef<T>())
         {
             STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR;

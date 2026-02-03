@@ -73,14 +73,14 @@ namespace CppUtils
         {
         }
 
-        constexpr const ElementType& Do()
+        constexpr const ElementType& Do() const
             requires (IsConstAfterRemovingRef<T>())
         {
             
             return m_Arr[0];
         }
 
-        constexpr ElementType& Do()
+        constexpr ElementType& Do() const
             requires (!IsConstAfterRemovingRef<T>())
         {
             return m_Arr[0];
@@ -105,13 +105,13 @@ private:
         {
         }
 
-        constexpr const ElementType& Do()
+        constexpr const ElementType& Do() const
             requires (IsConstAfterRemovingRef<T>())
         {
             return m_Arr[Capacity - 1];
         }
 
-        constexpr ElementType& Do()
+        constexpr ElementType& Do() const
             requires (!IsConstAfterRemovingRef<T>())
         {
             return m_Arr[Capacity - 1];

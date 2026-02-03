@@ -11,13 +11,19 @@
 int main(int argc, char** argv)
 {
     {
-        std::vector<int> vec;
-        const std::size_t cap = CppUtils::ContainerOps::GetCapacity{vec}.Do();
+        std::vector<int> vec { 5, 6, 7, 8 };
+        const std::size_t capacity = CppUtils::ContainerOps::GetCapacity{vec}.Do();
+        const std::size_t size = CppUtils::ContainerOps::GetSize{vec}.Do();
+        const bool isValidIndex = CppUtils::ContainerOps::IsValidIndex{vec}.Do(0);
+        const bool isEmpty = CppUtils::ContainerOps::IsEmpty{vec}.Do();
+        int& frontEl  = CppUtils::ContainerOps::GetFront{vec}.Do();
+        int& BackEl   = CppUtils::ContainerOps::GetBack{vec}.Do();
+        int& secondEl = CppUtils::ContainerOps::GetElement{vec}.Do(1);
     }
     
     {
         bool isSuccess = true;
-        
+
         const int rawArr[] = { 0, 1, 2 };
         
         constexpr std::size_t capacity = CppUtils::ContainerOps::GetCapacity(rawArr).Do();

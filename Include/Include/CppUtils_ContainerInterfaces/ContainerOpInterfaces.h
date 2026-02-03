@@ -189,7 +189,7 @@ namespace CppUtils
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
 
-    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetCapacity)
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetCapacity, const)
 
     template <class T>
     struct ContainerOpInterface_GetSize
@@ -206,7 +206,7 @@ namespace CppUtils
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
 
-    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetSize)
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetSize, const)
 
     template <class T>
     struct ContainerOpInterface_IsValidIndex
@@ -224,7 +224,7 @@ namespace CppUtils
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
     };
 
-    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsValidIndex)
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsValidIndex, const)
     
     template <class T>
     struct ContainerOpInterface_IsEmpty
@@ -241,7 +241,7 @@ namespace CppUtils
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
 
-    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty)
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_IsEmpty, const)
     
     template <class T>
     struct ContainerOpInterface_GetFront
@@ -256,7 +256,7 @@ namespace CppUtils
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
 
-    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront)
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetFront, )
 
     template <class T>
     struct ContainerOpInterface_GetBack
@@ -271,7 +271,7 @@ namespace CppUtils
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasNoParams<DoFuncTraits>());
     };
 
-    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetBack)
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetBack, )
     
     template <class T>
     struct ContainerOpInterface_GetElement
@@ -287,5 +287,5 @@ namespace CppUtils
         CPPUTILS_STATIC_EXECUTE(AssertDoFunc_HasExactlyOneParam<DoFuncTraits>());
     };
 
-    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetElement)
+    CPPUTILS_DECLARE_OP_INTERFACE_DEDUCTION_GUIDES(ContainerOpInterface_GetElement, )
 }
