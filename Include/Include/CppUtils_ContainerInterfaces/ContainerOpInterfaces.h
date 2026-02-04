@@ -27,8 +27,17 @@ namespace CppUtils::ContainerOps::Detail
         static_assert(std::is_lvalue_reference_v<T>, "Interfaces require that the container type is an lvalue reference." );
 
         /*
-        * We enforce an lvalue reference to the container type as the ctr. This is for multiple reasons. It enforces the consistency of our convenient user api (nice class template argument deduction).
-        *    It also enforces zero copies of container data, and sets us up for the standard compiler optimization ____, which elides the ptr copy for the reference member.
+        * We require all operation specializations to be constructible from a
+        * container type lvalue reference.
+        * 
+        * Rationale:
+        *  3) Provides the operation implementation with full access to the container
+        *     object (including cv-qualification and aliasing semantics).
+        *  1) Enforces a consistent and predictable user API.
+        *  2) Enables CTAD via deduction guides, resulting in a cleaner user-facing API.
+        *  4) Access to the container at no runtime cost: Storing a pointer (the lvalue reference)
+        *     has no observable side effects and may be freely optimized away by the compiler under
+        *     the standard as-if rule.
         */
         static_assert(std::is_constructible_v<Op, TypeProbe_LValueRef<std::remove_cvref_t<T>>>,       "Ctr of operation specialization must take 1 parameter, which accepts lvalue reference to the container type.");
         static_assert(!std::is_default_constructible_v<Op>, "Operation specialization can't have default ctr. We enforce a consistant user api which only accepts lvalue ref to user's container type.");
