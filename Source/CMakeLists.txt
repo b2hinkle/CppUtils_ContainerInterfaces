@@ -100,6 +100,7 @@ block(SCOPE_FOR VARIABLES)
     "${MY_BASE_PROJECT_NAME_FULL}_Export.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/ContainerOps_PrimaryTemplate.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaceDeductionGuides.cpp"
+    "${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaceStaticAsserts.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaces.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/ContainerOps.cpp"
     "${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_RawArray.cpp"

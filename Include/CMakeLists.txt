@@ -89,6 +89,7 @@ target_sources(${MY_BASE_PROJECT_NAME_FULL}_Include
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}_include_export.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOps_PrimaryTemplate.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaceDeductionGuides.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaceStaticAsserts.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOpInterfaces.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/ContainerOps.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/Include/${MY_BASE_PROJECT_NAME_FULL}/SpecializedContainerOps/SpecializedContainerOps_RawArray.h"
