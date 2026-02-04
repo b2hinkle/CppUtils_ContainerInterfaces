@@ -63,11 +63,11 @@ bool DoesPassOperationChecks(const ContainerType& container)
 
 int main(int argc, char** argv)
 {
+    // Test all operations on all supported container types.
     int rawArr[]                { -1, -1, -1 };
     std::array<int, 3> stdArray { -1, -1, -1 };
     std::vector<int> stdVector  { -1, -1, -1 };
 
-    // Test all operations on all supported container types.
     if (!DoesPassOperationChecks(rawArr))
     {
         return -1;
