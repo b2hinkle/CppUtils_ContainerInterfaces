@@ -14,6 +14,6 @@ The abstraction layer has no observable side effects and is therefore fully elim
 
 ## Example Usage
 ```cpp
-// Where `container` is a generic container type.
 const bool isContainerEmpty = CppUtils::ContainerOps::IsEmpty(container).Do();
+// Where `container` is a generic container type.
 ```
