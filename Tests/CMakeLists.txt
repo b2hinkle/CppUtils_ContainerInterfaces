@@ -22,14 +22,14 @@ project(${MY_BASE_PROJECT_NAME_FULL}_Tests
 # even need to exist yet because CMake only validates the existence of targets at the end of the entire
 # configuration process.
 
-add_executable(CppUtils_ContainerInterfaces_MyTest)
-target_compile_features(CppUtils_ContainerInterfaces_MyTest PUBLIC cxx_std_20)
-target_sources(CppUtils_ContainerInterfaces_MyTest PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Source/MyTest.cpp")
-target_link_libraries(CppUtils_ContainerInterfaces_MyTest
+add_executable(CppUtils_ContainerInterfaces_Tests)
+target_compile_features(CppUtils_ContainerInterfaces_Tests PUBLIC cxx_std_20)
+target_sources(CppUtils_ContainerInterfaces_Tests PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/Source/Tests.cpp")
+target_link_libraries(CppUtils_ContainerInterfaces_Tests
   PRIVATE
     ${MY_BASE_PROJECT_NAME_NAMESPACE}::${MY_BASE_PROJECT_NAME_LEAFNAME}::Static
   )
 
-add_test(NAME CppUtils.ContainerInterfaces.MyTest
-  COMMAND CppUtils_ContainerInterfaces_MyTest
+add_test(NAME CppUtils.ContainerInterfaces.Tests
+  COMMAND CppUtils_ContainerInterfaces_Tests
   )
