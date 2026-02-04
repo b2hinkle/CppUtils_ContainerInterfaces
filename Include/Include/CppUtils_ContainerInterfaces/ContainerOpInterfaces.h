@@ -3,7 +3,7 @@
 #pragma once
 
 #include <type_traits>
-#include <CppUtils_ContainerInterfaces/ContainerOpUtils.h>
+#include <CppUtils_ContainerInterfaces/ContainerOps_PrimaryTemplate.h>
 #include <CppUtils/Misc/FunctionTraits.h>
 #include <CppUtils/Misc/TypeTraits.h>
 #include <CppUtils/Misc/ContainerElementType.h>
