@@ -8,7 +8,7 @@
 
 #define STATIC_ASSERT_GETFRONT_OR_GETBACK_UNDEFINED_BEHAVIOR static_assert(Capacity > 0, "Calling front or back on zero-sized std::array would be undefined.");
 
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {    
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetCapacity<T, std::array<ElementType, Capacity>>

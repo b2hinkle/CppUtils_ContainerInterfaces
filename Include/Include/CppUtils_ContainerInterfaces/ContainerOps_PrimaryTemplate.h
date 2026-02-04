@@ -8,7 +8,7 @@
 #define CONTAINER_OP_PRIMARY_TEMPLATE_STATIC_ASSERT(ContainerOpName) \
     static_assert(sizeof(T) && false, "Provided container type has no implementation for " #ContainerOpName ". Either not supported by the container type, or the specialization simply wasn't implemented yet.");
 
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {
     /*
     * Creates compatability with the container op specializations.
@@ -24,7 +24,7 @@ namespace CppUtils
 * SpecializationKey is an automatically handled argument which facilitates the specialization selection. We specialize
 * based on a normalized T (check SpecializationCompatibleT for normalization process) container type to avoid multiple specializations for a single container operation.
 */
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {
     /*
     * Returns the number of elements that the container has currently allocated space for.

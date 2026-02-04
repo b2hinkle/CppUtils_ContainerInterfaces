@@ -6,7 +6,7 @@
 #include <CppUtils/Misc/TypeTraits.h>
 #include <CppUtils_ContainerInterfaces/ContainerOps_PrimaryTemplate.h>
 
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {
     template <class T, class ElementType>
     struct ContainerOp_GetCapacity<T, std::vector<ElementType, std::allocator<ElementType>>>

@@ -20,23 +20,23 @@
 namespace CppUtils::ContainerOps
 {
     template <class ContainerType>
-    using GetCapacity = ContainerOpInterface_GetCapacity<ContainerType>;
+    using GetCapacity = Detail::ContainerOpInterface_GetCapacity<ContainerType>;
 
     template <class ContainerType>
-    using GetSize = ContainerOpInterface_GetSize<ContainerType>;
+    using GetSize = Detail::ContainerOpInterface_GetSize<ContainerType>;
 
     template <class ContainerType>
-    using IsValidIndex = ContainerOpInterface_IsValidIndex<ContainerType>;
+    using IsValidIndex = Detail::ContainerOpInterface_IsValidIndex<ContainerType>;
 
     template <class ContainerType>
-    using IsEmpty = ContainerOpInterface_IsEmpty<ContainerType>;
+    using IsEmpty = Detail::ContainerOpInterface_IsEmpty<ContainerType>;
 
     template <class ContainerType>
-    using GetFront = ContainerOpInterface_GetFront<ContainerType>;
+    using GetFront = Detail::ContainerOpInterface_GetFront<ContainerType>;
 
     template <class ContainerType>
-    using GetBack = ContainerOpInterface_GetBack<ContainerType>;
+    using GetBack = Detail::ContainerOpInterface_GetBack<ContainerType>;
 
     template <class ContainerType>
-    using GetElement = ContainerOpInterface_GetElement<ContainerType>;
+    using GetElement = Detail::ContainerOpInterface_GetElement<ContainerType>;
 }

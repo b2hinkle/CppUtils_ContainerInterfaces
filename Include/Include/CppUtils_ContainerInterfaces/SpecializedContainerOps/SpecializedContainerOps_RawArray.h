@@ -10,7 +10,7 @@
 * Some raw array details to keep in mind:
 *   - It is not possible for raw arrays to exist with no size/capacity.
 */
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {
     template <class T, class ElementType, std::size_t Capacity>
     struct ContainerOp_GetCapacity<T, ElementType[Capacity]>

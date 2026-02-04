@@ -20,7 +20,7 @@
 *            This is a tradeoff we have to make for now to avoid code duplication. In the future with non-string-literal static_assert messages (C++23), this can be improved, and
 *            compile time reflection (C++26) can help even more.
 */
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {
     template <class TOp, class T>
     consteval void AssertDoFunc_IsCtrContainerTypeParamConst()
@@ -129,7 +129,7 @@ namespace CppUtils
     }
 }
 
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {
     /*
     * Base level interface for container ops. Container op interfaces must derive from this base for base level enforcements, as well as the container op itself.
@@ -172,7 +172,7 @@ namespace CppUtils
 /*
 * Static interfaces for container operations which callers go through for generically calling on a container's operation implementation.
 */
-namespace CppUtils
+namespace CppUtils::ContainerOps::Detail
 {
     template <class T>
     struct ContainerOpInterface_GetCapacity
