@@ -17,3 +17,6 @@ The abstraction layer has no observable side effects and is therefore fully elim
 const bool isContainerEmpty = CppUtils::ContainerOps::IsEmpty(container).Do();
 // Where `container` is a generic container type.
 ```
+
+TODOs:
+- Separate the abstraction layer into its own library. This would expand usage beyond container types (e.g. library agnostic vector types).
